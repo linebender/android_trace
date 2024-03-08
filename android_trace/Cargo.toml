@@ -1,0 +1,32 @@
+[package]
+name = "android_trace"
+description = "Support for Android NDK Tracing"
+categories = ["api-bindings", "development-tools::debugging", "os"]
+keywords = ["android", "trace", "logging", "atrace"]
+readme = true
+
+version.workspace = true
+license.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+edition.workspace = true
+
+# Doing initial development, so not publishing yet
+publish = false
+
+[dependencies]
+libc = "0.2.153"
+
+[features]
+default = []
+api_level_23 = []
+api_level_29 = ["api_level_23"]
+
+[package.metadata.docs.rs]
+default-target = "aarch64-linux-android"
+# In theory, we could add the other Android targets here. 
+# However, the API is identical across any of them, so there's no advantage
+targets = []
+
+[dev-dependencies]
+static_assertions = "1.1.0"
