@@ -65,6 +65,7 @@ impl ATraceLayer {
     }
 }
 
+#[derive(Debug)]
 pub(crate) struct ATraceExtension {
     name: CString,
     cookie: i32,
@@ -104,8 +105,8 @@ where
         if self.trace.is_enabled().unwrap_or(false) {
             let span = ctx.span(id).expect("Span not found, this is a bug");
             let mut extensions = span.extensions_mut();
-
-            let mut name = String::new();
+            let mut name = String::from(attrs.metadata().name());
+            name.push_str(": ");
             if self
                 .fmt_fields
                 .format_fields(Writer::new(&mut name), attrs)
@@ -120,7 +121,7 @@ where
                             let jar = guard.get(&id).unwrap();
                             jar.fetch_add(1, atomic::Ordering::Relaxed)
                         };
-                        extensions.insert(ATraceExtension { name, cookie })
+                        extensions.insert::<ATraceExtension>(ATraceExtension { name, cookie })
                     }
                     Err(e) => eprintln!(
                         concat!(
@@ -136,6 +137,8 @@ where
                     attrs
                 );
             }
+        } else {
+            eprintln!("Tracing reported as disabled2");
         }
     }
 
@@ -158,7 +161,7 @@ where
     }
 
     fn on_event(&self, _event: &tracing::Event<'_>, _: tracing_subscriber::layer::Context<'_, S>) {
-        // TODO: Does it make sense to do anything here?
+        // TODO: Does it maextke sense to do anything here?
 
         // if self.is_enabled {
         //     let mut name = String::new();
@@ -185,16 +188,19 @@ where
         let span = ctx.span(id).expect("Span not found, this is a bug");
         let extensions = span.extensions();
         if let Some(ext) = extensions.get::<ATraceExtension>() {
-            self.trace.begin_section_try_async(&ext.name, ext.cookie);
+            // TODO: Debug:
+            // self.trace.begin_section_try_async(&ext.name, ext.cookie);
+            self.trace.begin_section(&ext.name);
         }
     }
 
     fn on_exit(&self, id: &span::Id, ctx: tracing_subscriber::layer::Context<'_, S>) {
         let span = ctx.span(id).expect("Span not found, this is a bug");
         let extensions = span.extensions();
-        if let Some(ext) = extensions.get::<ATraceExtension>() {
+        if let Some(_ext) = extensions.get::<ATraceExtension>() {
             // Matches the call in `on_enter`
-            self.trace.end_section_try_async(&ext.name, ext.cookie);
+            // self.trace.end_section_try_async(&ext.name, ext.cookie);
+            self.trace.end_section();
         }
     }
 }
