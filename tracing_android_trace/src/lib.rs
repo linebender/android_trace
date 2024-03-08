@@ -46,7 +46,6 @@ use tracing_subscriber::{
 };
 
 pub struct ATraceLayer {
-    is_enabled: bool,
     trace: AndroidTrace,
     fmt_fields: DefaultFields,
     cookies: RwLock<HashMap<Identifier, AtomicI32>>,
@@ -58,9 +57,7 @@ impl ATraceLayer {
         Self::with_trace(trace)
     }
     pub fn with_trace(trace: AndroidTrace) -> Self {
-        let is_enabled = trace.is_enabled().unwrap_or(false);
         ATraceLayer {
-            is_enabled,
             trace,
             fmt_fields: DefaultFields::new(),
             cookies: RwLock::default(),
@@ -81,22 +78,21 @@ where
         &self,
         metadata: &'static tracing::Metadata<'static>,
     ) -> tracing::subscriber::Interest {
-        if self.is_enabled {
-            let id = metadata.callsite();
-            {
-                let mut guard = self
-                    .cookies
-                    .write()
-                    .expect("Putting Identifier into HashMap paniced. This shouldn't be possible");
-                match guard.insert(id, AtomicI32::new(0)) {
-                    Some(mut v) => eprintln!(
-                        "Got unexpected existing cookie, which had value {}",
-                        v.get_mut()
-                    ),
-                    None => (),
-                };
-            }
+        let id = metadata.callsite();
+        {
+            let mut guard = self
+                .cookies
+                .write()
+                .expect("Putting Identifier into HashMap paniced. This shouldn't be possible");
+            match guard.insert(id, AtomicI32::new(0)) {
+                Some(mut v) => eprintln!(
+                    "Got unexpected existing cookie, which had value {}",
+                    v.get_mut()
+                ),
+                None => (),
+            };
         }
+
         Interest::always()
     }
     fn on_new_span(
@@ -105,7 +101,7 @@ where
         id: &span::Id,
         ctx: tracing_subscriber::layer::Context<'_, S>,
     ) {
-        if self.is_enabled {
+        if self.trace.is_enabled().unwrap_or(false) {
             let span = ctx.span(id).expect("Span not found, this is a bug");
             let mut extensions = span.extensions_mut();
 
@@ -188,20 +184,18 @@ where
     fn on_enter(&self, id: &span::Id, ctx: tracing_subscriber::layer::Context<'_, S>) {
         let span = ctx.span(id).expect("Span not found, this is a bug");
         let extensions = span.extensions();
-        let ext = extensions
-            .get::<ATraceExtension>()
-            .expect("Was set in on_new_span");
-        self.trace.begin_section_try_async(&ext.name, ext.cookie);
+        if let Some(ext) = extensions.get::<ATraceExtension>() {
+            self.trace.begin_section_try_async(&ext.name, ext.cookie);
+        }
     }
 
     fn on_exit(&self, id: &span::Id, ctx: tracing_subscriber::layer::Context<'_, S>) {
         let span = ctx.span(id).expect("Span not found, this is a bug");
         let extensions = span.extensions();
-        let ext = extensions
-            .get::<ATraceExtension>()
-            .expect("Was set in on_new_span");
-        // Matches the call in `on_enter`
-        self.trace.end_section_try_async(&ext.name, ext.cookie);
+        if let Some(ext) = extensions.get::<ATraceExtension>() {
+            // Matches the call in `on_enter`
+            self.trace.end_section_try_async(&ext.name, ext.cookie);
+        }
     }
 }
 
