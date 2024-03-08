@@ -15,7 +15,10 @@ edition.workspace = true
 publish = false
 
 [dependencies]
-tracing-subscriber = "0.3.18"
+tracing-subscriber = { version = "0.3.18", default-features = false, features = [
+    "std",
+    "fmt",
+] }
 tracing = "0.1.40"
 tracing-core = "0.1.32"
 
