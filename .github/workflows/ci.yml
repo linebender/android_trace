@@ -117,12 +117,12 @@ jobs:
         # We use cargo check rather than clippy, because if a lint used to have false-positives
         # we don't want them to still exist
       - name: cargo check
-        run: cargo hack check --target aarch64-linux-android --workspace --each-feature --optional-deps -- -D warnings
+        run: cargo hack check --target aarch64-linux-android --workspace --each-feature --optional-deps
         env:
           RUSTFLAGS: '-D warnings'
 
       - name: cargo check (auxiliary)
-        run: cargo hack check --target aarch64-linux-android --workspace --each-feature --optional-deps --tests --benches --examples -- -D warnings
+        run: cargo hack check --target aarch64-linux-android --workspace --each-feature --optional-deps --tests --benches --examples
         env:
           RUSTFLAGS: '-D warnings'
 
