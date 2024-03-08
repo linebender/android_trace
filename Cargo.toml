@@ -1,5 +1,5 @@
 [workspace]
-members = ["android_trace"]
+members = ["android_trace", "tracing_android_trace"]
 resolver = "2"
 
 [workspace.package]
