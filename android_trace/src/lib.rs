@@ -10,6 +10,11 @@
 ",
     include_str!("../README.md"),
 )]
+#![warn(
+    unreachable_pub,
+    clippy::doc_markdown,
+    clippy::semicolon_if_nothing_returned
+)]
 
 #[cfg(not(feature = "api_level_23"))]
 use ffi::ATraceAPILevel23Methods;
@@ -77,7 +82,7 @@ impl AndroidTrace {
     /// calls [`Self::begin_section`].
     pub fn begin_section_try_async(&self, section_name: &CStr, cookie: i32) {
         if self.begin_async_section(section_name, cookie).is_none() {
-            self.begin_section(section_name)
+            self.begin_section(section_name);
         }
     }
 
@@ -86,11 +91,11 @@ impl AndroidTrace {
     /// This should follow a call to [`Self::begin_section_try_async`] on the same thread.
     pub fn end_section_try_async(&self, section_name: &CStr, cookie: i32) {
         if self.end_async_section(section_name, cookie).is_none() {
-            self.end_section()
+            self.end_section();
         }
     }
 
-    /// Returns Some(true) if tracing through ATrace is enabled (and Some(false) if it is disabled).
+    /// Returns Some(true) if tracing through Android Trace is enabled (and Some(false) if it is disabled).
     ///
     /// Calls [`ATrace_isEnabled`](https://developer.android.com/ndk/reference/group/tracing#atrace_isenabled)
     /// if available. This is only available since Android API level 23. If the `api_level_23` feature is not
@@ -99,11 +104,12 @@ impl AndroidTrace {
     ///
     /// If `ATrace_isEnabled` is not available, returns None.
     #[doc(alias = "ATrace_isEnabled")]
+    #[must_use = "Detecting if tracing is enabled has no side effects"]
     pub fn is_enabled(&self) -> Option<bool> {
         // SAFETY: No preconditions
         #[cfg(feature = "api_level_23")]
         unsafe {
-            return Some(atrace_is_enabled_raw());
+            Some(ffi::atrace_is_enabled_raw())
         }
         #[cfg(not(feature = "api_level_23"))]
         if let Some(methods) = self.api_level_23 {
@@ -131,7 +137,7 @@ impl AndroidTrace {
         #[cfg(feature = "api_level_23")]
         unsafe {
             // SAFETY: section_name is a valid C string
-            return atrace_begin_section_raw(section_name.as_ptr());
+            ffi::atrace_begin_section_raw(section_name.as_ptr());
         }
         #[cfg(not(feature = "api_level_23"))]
         if let Some(methods) = self.api_level_23 {
@@ -156,7 +162,7 @@ impl AndroidTrace {
         // SAFETY: No preconditions.
         #[cfg(feature = "api_level_23")]
         unsafe {
-            return atrace_end_section_raw();
+            ffi::atrace_end_section_raw();
         }
         #[cfg(not(feature = "api_level_23"))]
         if let Some(methods) = self.api_level_23 {
@@ -180,8 +186,8 @@ impl AndroidTrace {
         // SAFETY: No preconditions.
         #[cfg(feature = "api_level_29")]
         unsafe {
-            atrace_begin_async_section_raw(section_name.as_ptr(), cookie);
-            return Some(());
+            ffi::atrace_begin_async_section_raw(section_name.as_ptr(), cookie);
+            Some(())
         }
         #[cfg(not(feature = "api_level_29"))]
         if let Some(methods) = self.api_level_29 {
@@ -208,7 +214,8 @@ impl AndroidTrace {
         // SAFETY: No preconditions.
         #[cfg(feature = "api_level_29")]
         unsafe {
-            return atrace_end_async_section_raw(section_name.as_ptr(), cookie);
+            ffi::atrace_end_async_section_raw(section_name.as_ptr(), cookie);
+            Some(())
         }
         #[cfg(not(feature = "api_level_29"))]
         if let Some(methods) = self.api_level_29 {
@@ -239,8 +246,8 @@ impl AndroidTrace {
         // SAFETY: No preconditions.
         #[cfg(feature = "api_level_29")]
         unsafe {
-            atrace_set_counter_raw(counter_name.as_ptr(), value);
-            return Some(());
+            ffi::atrace_set_counter_raw(counter_name.as_ptr(), value);
+            Some(())
         }
         #[cfg(not(feature = "api_level_29"))]
         if let Some(methods) = self.api_level_29 {
