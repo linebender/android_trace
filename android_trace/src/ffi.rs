@@ -1,9 +1,12 @@
+#[cfg(not(all(feature = "api_level_23", feature = "api_level_29")))]
 use core::{
-    ffi::{c_char, c_void, CStr},
+    ffi::{c_void, CStr},
     mem,
 };
-use std::sync::OnceLock;
 
+use core::ffi::c_char;
+
+#[cfg(not(all(feature = "api_level_23", feature = "api_level_29")))]
 /// A utility for handling FFI values
 const fn ffi_name(bytes_with_nul: &[u8]) -> &CStr {
     match CStr::from_bytes_with_nul(bytes_with_nul) {
@@ -18,6 +21,7 @@ const fn ffi_name(bytes_with_nul: &[u8]) -> &CStr {
 ///
 /// `func` must have been produced from a call to `dlsym` which is
 /// reasonably expected to have the right type
+#[cfg(not(all(feature = "api_level_23", feature = "api_level_29")))]
 unsafe fn transmute_if_not_null<F>(func: *mut c_void) -> Option<F> {
     assert_eq!(mem::size_of::<F>(), mem::size_of::<*mut c_void>());
     if func.is_null() {
@@ -33,15 +37,15 @@ unsafe fn transmute_if_not_null<F>(func: *mut c_void) -> Option<F> {
 extern "C" {
     #[link_name = "ATrace_beginSection"]
     /// <https://developer.android.com/ndk/reference/group/tracing#atrace_beginsection>
-    fn atrace_begin_section_raw(section_name: *const c_char);
+    pub(crate) fn atrace_begin_section_raw(section_name: *const c_char);
 
     #[link_name = "ATrace_endSection"]
     /// <https://developer.android.com/ndk/reference/group/tracing#atrace_endsection>
-    fn atrace_end_section_raw();
+    pub(crate) fn atrace_end_section_raw();
 
     #[link_name = "ATrace_isEnabled"]
     /// <https://developer.android.com/ndk/reference/group/tracing#atrace_isenabled>
-    fn atrace_is_enabled_raw() -> bool;
+    pub(crate) fn atrace_is_enabled_raw() -> bool;
 }
 
 #[cfg(not(feature = "api_level_23"))]
@@ -61,6 +65,7 @@ extern "C" {}
 impl ATraceAPILevel23Methods {
     pub(crate) fn get() -> Option<&'static Self> {
         use libc::RTLD_DEFAULT;
+        use std::sync::OnceLock;
 
         static API_LEVEL_23_METHODS: OnceLock<Option<ATraceAPILevel23Methods>> = OnceLock::new();
         API_LEVEL_23_METHODS
@@ -97,15 +102,15 @@ impl ATraceAPILevel23Methods {
 extern "C" {
     #[link_name = "ATrace_beginAsyncSection"]
     /// <https://developer.android.com/ndk/reference/group/tracing#atrace_beginasyncsection>
-    fn atrace_begin_async_section_raw(section_name: *const c_char, cookie: i32);
+    pub(crate) fn atrace_begin_async_section_raw(section_name: *const c_char, cookie: i32);
 
     #[link_name = "ATrace_endAsyncSection"]
     /// <https://developer.android.com/ndk/reference/group/tracing#atrace_endasyncsection>
-    fn atrace_end_async_section_raw(section_name: *const c_char, cookie: i32);
+    pub(crate) fn atrace_end_async_section_raw(section_name: *const c_char, cookie: i32);
 
     #[link_name = "ATrace_setCounter"]
     //<https://developer.android.com/ndk/reference/group/tracing#atrace_setcounter>
-    fn atrace_set_counter_raw(counter_name: *const c_char, counter_value: i64);
+    pub(crate) fn atrace_set_counter_raw(counter_name: *const c_char, counter_value: i64);
 }
 
 #[cfg(not(feature = "api_level_29"))]
@@ -119,6 +124,7 @@ pub(crate) struct ATraceAPILevel29Methods {
 impl ATraceAPILevel29Methods {
     pub(crate) fn get() -> Option<&'static Self> {
         use libc::RTLD_DEFAULT;
+        use std::sync::OnceLock;
 
         static API_LEVEL_29_METHODS: OnceLock<Option<ATraceAPILevel29Methods>> = OnceLock::new();
         API_LEVEL_29_METHODS
