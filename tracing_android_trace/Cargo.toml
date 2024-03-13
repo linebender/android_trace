@@ -18,9 +18,12 @@ publish = false
 tracing-subscriber = { version = "0.3.18", default-features = false, features = [
     "std",
     "fmt",
+    "smallvec",
 ] }
 tracing = "0.1.40"
 tracing-core = "0.1.32"
+smallvec = "1.13.1"
+thread_local = "1.1.8"
 
 [features]
 default = ["api_level_23"]
