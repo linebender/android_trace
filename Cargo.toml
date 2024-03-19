@@ -5,8 +5,8 @@ resolver = "2"
 [workspace.package]
 version = "0.1.0"
 license = "MIT OR Apache-2.0"
-# We use CStr::from_bytes_with_nul in a const context
-rust-version = "1.72"
+# We use C string literals
+rust-version = "1.77"
 
 repository = "https://github.com/DJMcNab/android_trace"
 edition = "2021"

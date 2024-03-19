@@ -205,12 +205,7 @@ where
             // of EXTRA_STR - currently `_`
             // The bookkeeping needed for this makes use of the extra_parents field, and is unfortunately
             // quite complicated
-            const EXTRA_STR: &CStr = match CStr::from_bytes_until_nul(b"_\0") {
-                Ok(it) => it,
-                Err(_) => {
-                    unreachable!()
-                }
-            };
+            const EXTRA_STR: &CStr = c"_";
 
             let extra_parents_of_exiting;
             {
