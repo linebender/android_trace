@@ -10,11 +10,6 @@
     ",
         include_str!("../README.md"),
     )]
-#![warn(
-    unreachable_pub,
-    clippy::doc_markdown,
-    clippy::semicolon_if_nothing_returned
-)]
 #![forbid(unsafe_code)]
 
 #[cfg(not(target_os = "android"))]
@@ -63,6 +58,12 @@ impl ATraceLayer {
             fmt_fields: DefaultFields::new(),
             current_actual_stack: ThreadLocal::new(),
         }
+    }
+}
+
+impl Default for ATraceLayer {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
@@ -183,7 +184,7 @@ where
             return;
         }
         let last = stack.last().unwrap().as_ref();
-        debug_assert!(last != None);
+        debug_assert!(last.is_some());
         if last == Some(id) {
             stack.pop();
             // Fast path, if we were at the top of the stack (i.e. the current top is our parent)
@@ -230,7 +231,7 @@ where
                     if let Some(ext) = extensions.get::<ATraceExtension>() {
                         self.trace.begin_section(&ext.name);
                     } else {
-                        eprintln!("Unexpectedly had item in stack without ATraceExtension")
+                        eprintln!("Unexpectedly had item in stack without ATraceExtension");
                     }
                 } else {
                     self.trace.begin_section(EXTRA_STR);

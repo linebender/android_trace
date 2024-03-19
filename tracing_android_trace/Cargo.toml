@@ -14,6 +14,10 @@ edition.workspace = true
 # Doing initial development, so not publishing yet
 publish = false
 
+[lints]
+workspace = true
+
+
 [dependencies]
 tracing-subscriber = { version = "0.3.18", default-features = false, features = [
     "std",

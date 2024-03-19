@@ -29,6 +29,12 @@ impl ATraceLayerAsync {
     }
 }
 
+impl Default for ATraceLayerAsync {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 #[derive(Debug)]
 pub(crate) struct ATraceExtensionAsync {
     name: CString,

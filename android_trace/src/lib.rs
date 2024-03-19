@@ -10,12 +10,6 @@
 ",
     include_str!("../README.md"),
 )]
-#![warn(
-    unreachable_pub,
-    clippy::doc_markdown,
-    clippy::semicolon_if_nothing_returned,
-    unsafe_op_in_unsafe_fn
-)]
 
 #[cfg(not(feature = "api_level_23"))]
 use ffi::ATraceAPILevel23Methods;
