@@ -1,15 +1,15 @@
 #![doc = concat!(
-    // TODO: Is this a new pattern?
-    "[AndroidTrace]: crate::AndroidTrace
-    [dlsym]: libc::dlsym
-    [`begin_section_try_async`]: AndroidTrace::begin_section_try_async
-    [`end_section_try_async`]: AndroidTrace::end_section_try_async
-    
-    <!-- Hide the header section of the README when using rustdoc -->
-    <div style=\"display:none\">
-    ",
-        include_str!("../README.md"),
-    )]
+// TODO: Is this a new pattern?
+"[AndroidTrace]: crate::AndroidTrace
+[`tracing`]: tracing
+[`tracing_subscriber::Layer`]: tracing_subscriber::Layer
+[tracing_subscriber::filter]: tracing_subscriber::filter
+
+<!-- Hide the header section of the README when using rustdoc -->
+<div style=\"display:none\">
+",
+    include_str!("../README.md"),
+)]
 #![forbid(unsafe_code)]
 
 #[cfg(not(target_os = "android"))]

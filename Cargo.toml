@@ -5,6 +5,7 @@ resolver = "2"
 [workspace.package]
 version = "0.1.0"
 license = "MIT OR Apache-2.0"
+# Keep in sync with RUST_MIN_VER in .github/workflows/ci.yml and with the relevant README.md files.
 # We use C string literals
 rust-version = "1.77"
 

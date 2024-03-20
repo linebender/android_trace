@@ -78,7 +78,6 @@ impl AndroidTrace {
     /// calls [`Self::begin_section`].
     pub fn begin_section_try_async(&self, section_name: &CStr, cookie: i32) {
         if self.begin_async_section(section_name, cookie).is_none() {
-            dbg!("Trying not async");
             self.begin_section(section_name);
         }
     }

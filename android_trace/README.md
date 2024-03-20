@@ -68,6 +68,13 @@ To support Android API versions less than 23, you should disable default feature
 android_trace = { version = "0.1.0", default-features = false }
 ```
 
+## Minimum supported Rust Version (MSRV)
+
+This version of Android Trace has been verified to compile with Rust 1.77 and later.
+
+Future versions of Android Trace might increase the Rust version requirement.
+It will not be treated as a breaking change and as such can even happen with small patch releases.
+
 ## Community
 
 Discussion of Android Trace development happens in the [Linebender Zulip](https://xi.zulipchat.com/), specifically in
