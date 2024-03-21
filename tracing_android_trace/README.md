@@ -21,9 +21,11 @@
 
 ⚠️ Tracing Android Trace only supports Android
 
-Tracing Android Trace provides several [`tracing_subscriber::Layer`]s for Android [NDK Tracing], using `ATrace_beginSection` and `ATrace_endSection`.
+Tracing Android Trace provides several [`tracing_subscriber::Layer`]s for Android NDK Tracing, using `ATrace_beginSection` and `ATrace_endSection`.
 This allows viewing spans created using the [`tracing`] macros in [Android GPU Inspector](https://gpuinspector.dev/).
-Note that this does not currently support `tracing` events.
+
+Note that this does not currently support `tracing` *events*, only spans.
+This limitation is due to the underlying Android platform APIs.
 
 <figure>
 <img src="https://github.com/DJMcNab/android_trace/assets/36049421/a7f03b74-d690-42be-91b5-326fbb698a03" alt="Screenshot showing a thread timeline including spans of a single thread">
@@ -35,18 +37,14 @@ Tracing spans for [Vello](https://github.com/linebender/vello) shown in Android 
 
 ## Quickstart
 
-Add a dependency on Android Trace and on `tracing_subscriber`:
+Add a dependency on Android Trace (and on [`tracing_subscriber`][tracing_subscriber]).
 
 ```toml
 [target.'cfg(target_os = "android")'.dependencies]
 android_trace = "0.1.0"
-tracing-subscriber = { version = "0.3.18", default-features = false, features = [
-    "std",
-    "registry",
-] }
 ```
 
-and add an Android Tracing layer in the registry subscriber:
+You can then add an Android Tracing layer to the registry subscriber:
 ```rust
 fn main(){ 
   tracing_subscriber::registry()
@@ -56,7 +54,7 @@ fn main(){
 }
 ```
 
-## Available Subscribers
+## Available Layers
 
 [NDK Tracing] supports three kinds of tracing, with different API level requirements.
 

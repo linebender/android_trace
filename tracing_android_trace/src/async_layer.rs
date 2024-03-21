@@ -10,26 +10,26 @@ use tracing_subscriber::{
     registry::LookupSpan,
 };
 
-pub struct ATraceLayerAsync {
+pub struct AndroidTraceAsyncLayer {
     trace: AndroidTrace,
     fmt_fields: DefaultFields,
 }
 
-impl ATraceLayerAsync {
+impl AndroidTraceAsyncLayer {
     pub fn new() -> Self {
         let trace = AndroidTrace::new();
         Self::with_trace(trace)
     }
 
     pub fn with_trace(trace: AndroidTrace) -> Self {
-        ATraceLayerAsync {
+        AndroidTraceAsyncLayer {
             trace,
             fmt_fields: DefaultFields::new(),
         }
     }
 }
 
-impl Default for ATraceLayerAsync {
+impl Default for AndroidTraceAsyncLayer {
     fn default() -> Self {
         Self::new()
     }
@@ -41,7 +41,7 @@ pub(crate) struct ATraceExtensionAsync {
     cookie: i32,
 }
 
-impl<S> tracing_subscriber::Layer<S> for ATraceLayerAsync
+impl<S> tracing_subscriber::Layer<S> for AndroidTraceAsyncLayer
 where
     S: tracing::Subscriber + for<'a> LookupSpan<'a>,
 {
