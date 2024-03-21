@@ -5,6 +5,11 @@
 [`tracing_subscriber::Layer`]: tracing_subscriber::Layer
 [tracing_subscriber::filter]: tracing_subscriber::filter
 [tracing_subscriber]: tracing_subscriber
+[`AndroidTraceLayer`]: AndroidTraceLayer
+
+<style>
+.rustdoc-hidden { display: none; }
+</style>
 
 <!-- Hide the header section of the README when using rustdoc -->
 <div style=\"display:none\">
@@ -26,7 +31,6 @@ mod async_layer;
 mod sync_layer;
 
 #[cfg(target_os = "android")]
-/// We re-export android_trace to allow using the tracing methods manually as needed
 pub use android_trace;
 
 #[cfg(target_os = "android")]

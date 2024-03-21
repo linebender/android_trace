@@ -45,10 +45,12 @@ android_trace = "0.1.0"
 ```
 
 You can then add an Android Tracing layer to the registry subscriber:
-```rust
+```rust,no_run
+use tracing_subscriber::prelude::*;
+
 fn main(){ 
   tracing_subscriber::registry()
-    .with(tracing_android_trace::ATraceLayer::new())
+    .with(tracing_android_trace::AndroidTraceLayer::new())
     .try_init()
     .unwrap();
 }
@@ -63,7 +65,7 @@ fn main(){
 The first API added, which is useful for tracking time spent in a thread, was `ATrace_beginSection` and `ATrace_endSection`.
 This has been available since Android API level 23.
 
-[`ATraceLayer`] uses this API, and is the preferred layer from this crate - it was used to produce the screenshot above.
+[`AndroidTraceLayer`] uses this API, and is the preferred layer from this crate - it was used to produce the screenshot above.
 
 Note that if entering and exiting of spans are interleaved, this layer will produce discontinuous traces.
 This is required to work around the limitations of the NDK API.
@@ -108,6 +110,9 @@ This version of Tracing Android Trace has been verified to compile with Rust 1.7
 Future versions of Tracing Android Trace might increase the Rust version requirement.
 It will not be treated as a breaking change and as such can even happen with small patch releases.
 
+<!-- We hide these elements when viewing in Rustdoc, because they're not expected to be present in crate level docs -->
+<div class="rustdoc-hidden">
+
 ## Community
 
 Discussion of Android Trace development happens in the [Linebender Zulip](https://xi.zulipchat.com/), specifically in
@@ -126,6 +131,8 @@ Licensed under either of
    ([LICENSE-MIT](LICENSE-MIT) or <http://opensource.org/licenses/MIT>)
 
 at your option.
+
+</div>
 
 [`tracing`]: https://docs.rs/tracing/latest/tracing/
 [rust code of conduct]: https://www.rust-lang.org/policies/code-of-conduct
