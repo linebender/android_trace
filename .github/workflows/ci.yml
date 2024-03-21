@@ -3,10 +3,25 @@ env:
   # version like 1.70. Note that we only specify MAJOR.MINOR and not PATCH so that bugfixes still
   # come automatically. If the version specified here is no longer the latest stable version,
   # then please feel free to submit a PR that adjusts it along with the potential clippy fixes.
-  RUST_STABLE_VER: "1.76" # In quotes because otherwise (e.g.) 1.70 would be interpreted as 1.7
-  # If updating, ensure that it is also updated in the root Cargo.toml
-  # Explanation of the version choice is there
-  MINIMUM_SUPPORTED_RUST_VERSION: "1.72"
+  # RUST_STABLE_VER: "1.77" # In quotes because otherwise (e.g.) 1.70 would be interpreted as 1.7
+  
+  # When updating this, also update RUST_DOCS_COMPILE_VER below to the same version
+  RUST_STABLE_VER: "beta"
+  # The version of rustc we use to test that doc examples compile.
+  # This is required because we depend on the unstable `-Zdoctest-xcompile`.
+  # See https://github.com/rust-lang/rust/issues/64245
+  # This should be the same version of Rust which the above stable was branched from.
+  # To get the correct date, use `cargo --version`. E.g for 1.77, this prints
+  # cargo 1.77.0 (3fe68eabf 2024-02-29)
+  # So the date used when we depended on 1.77 was 2024-02-29
+  RUST_DOCS_COMPILE_VER: "nightly-2024-02-29"
+
+  # The purpose of checking with the minimum supported Rust toolchain is to detect its staleness.
+  # If the compilation fails, then the version specified here needs to be bumped up to reality.
+  # Be sure to also update the rust-version property in the workspace Cargo.toml file,
+  # plus all the README.md files of the affected packages.
+  MINIMUM_SUPPORTED_RUST_VERSION: "beta"
+
 
 # Rationale
 #
@@ -63,7 +78,7 @@ jobs:
       matrix:
         # We don't have any ABI specific code, but it's best to double check anyway
         android_target: [armv7-linux-androideabi, aarch64-linux-android, x86_64-linux-android]
-    name: cargo clippy + test
+    name: cargo clippy
     steps:
       - uses: actions/checkout@v4
 
@@ -94,7 +109,7 @@ jobs:
       # - name: cargo test
       #   run: cargo test --workspace --all-features
 
-  test-msrv:
+  check-msrv:
     runs-on: ubuntu-latest
     name: cargo check (MSRV)
     steps:
@@ -148,9 +163,34 @@ jobs:
       - name: install nightly toolchain
         uses: dtolnay/rust-toolchain@nightly
         with:
-          components: rustfmt
           targets: aarch64-linux-android
 
       # We test documentation using nightly to match docs.rs. This prevents potential breakages
       - name: cargo doc
         run: cargo doc --workspace --all-features --no-deps --document-private-items -Zunstable-options -Zrustdoc-scrape-examples
+
+  docs-compile:
+    name: cargo test --doc
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Our dependency tree is small enough (only libc)
+      # that caching is likely to be worse
+      # - name: restore cache
+      #   uses: Swatinem/rust-cache@v2
+
+      - name: install nightly toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.RUST_DOCS_COMPILE_VER }}
+          # We expect our docs to be arch-independent
+          targets: aarch64-linux-android
+
+      # We test that the code examples in our docs compile, which requires nightly
+      # See the docs on RUST_DOCS_COMPILE_VER, above
+      # Even though there could be *could* be doctests on conditionally compiled out private items
+      # we don't expect those to exist, so we don't use cargo hack.
+      # It is a shame that we can't detect those, though
+      - name: cargo test --doc
+        run: cargo test -Zdoctest-xcompile --doc --workspace

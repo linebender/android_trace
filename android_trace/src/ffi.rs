@@ -6,17 +6,6 @@ use core::{
 
 use core::ffi::c_char;
 
-#[cfg(not(all(feature = "api_level_23", feature = "api_level_29")))]
-/// A utility for handling FFI values
-const fn ffi_name(bytes_with_nul: &[u8]) -> &CStr {
-    match CStr::from_bytes_with_nul(bytes_with_nul) {
-        Ok(name) => name,
-        Err(_) => {
-            panic!()
-        }
-    }
-}
-
 /// # Safety
 ///
 /// `func` must have been produced from a call to `dlsym` which is
@@ -71,18 +60,18 @@ impl ATraceAPILevel23Methods {
         API_LEVEL_23_METHODS
             .get_or_init(|| {
                 let is_enabled = unsafe {
-                    const IS_ENABLED_NAME: &CStr = ffi_name(b"ATrace_isEnabled\0");
+                    const IS_ENABLED_NAME: &CStr = c"ATrace_isEnabled";
                     // Safety: We're on Android, and have definitely linked to libandroid, so this function
                     // should have the expected signature if present
                     transmute_if_not_null(libc::dlsym(RTLD_DEFAULT, IS_ENABLED_NAME.as_ptr()))?
                 };
                 let begin_section = unsafe {
-                    const BEGIN_SECTION_NAME: &CStr = ffi_name(b"ATrace_beginSection\0");
+                    const BEGIN_SECTION_NAME: &CStr = c"ATrace_beginSection";
                     // Safety: As above
                     transmute_if_not_null(libc::dlsym(RTLD_DEFAULT, BEGIN_SECTION_NAME.as_ptr()))?
                 };
                 let end_section = unsafe {
-                    const END_SECTION_NAME: &CStr = ffi_name(b"ATrace_endSection\0");
+                    const END_SECTION_NAME: &CStr = c"ATrace_endSection";
                     // Safety: As above
                     transmute_if_not_null(libc::dlsym(RTLD_DEFAULT, END_SECTION_NAME.as_ptr()))?
                 };
@@ -130,18 +119,18 @@ impl ATraceAPILevel29Methods {
         API_LEVEL_29_METHODS
             .get_or_init(|| {
                 let set_counter = unsafe {
-                    const SET_COUNTER_NAME: &CStr = ffi_name(b"ATrace_setCounter\0");
+                    const SET_COUNTER_NAME: &CStr = c"ATrace_setCounter";
                     // Safety: We're on Android, and have definitely linked to libandroid, so this function
                     // should have the expected signature if present
                     transmute_if_not_null(libc::dlsym(RTLD_DEFAULT, SET_COUNTER_NAME.as_ptr()))?
                 };
                 let begin_async_section = unsafe {
-                    const BEGIN_SECTION_NAME: &CStr = ffi_name(b"ATrace_beginAsyncSection\0");
+                    const BEGIN_SECTION_NAME: &CStr = c"ATrace_beginAsyncSection";
                     // Safety: As above
                     transmute_if_not_null(libc::dlsym(RTLD_DEFAULT, BEGIN_SECTION_NAME.as_ptr()))?
                 };
                 let end_async_section = unsafe {
-                    const END_SECTION_NAME: &CStr = ffi_name(b"ATrace_endAsyncSection\0");
+                    const END_SECTION_NAME: &CStr = c"ATrace_endAsyncSection";
                     // Safety: As above
                     transmute_if_not_null(libc::dlsym(RTLD_DEFAULT, END_SECTION_NAME.as_ptr()))?
                 };

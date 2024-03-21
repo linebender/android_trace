@@ -10,11 +10,6 @@
 ",
     include_str!("../README.md"),
 )]
-#![warn(
-    unreachable_pub,
-    clippy::doc_markdown,
-    clippy::semicolon_if_nothing_returned
-)]
 
 #[cfg(not(feature = "api_level_23"))]
 use ffi::ATraceAPILevel23Methods;
@@ -36,6 +31,7 @@ mod ffi;
 /// A handle to the available NDK tracing functions
 ///
 /// All access is thread safe
+#[derive(Clone)]
 pub struct AndroidTrace {
     #[cfg(not(feature = "api_level_23"))]
     api_level_23: Option<&'static ATraceAPILevel23Methods>,

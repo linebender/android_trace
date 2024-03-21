@@ -1,12 +1,21 @@
 [workspace]
-members = ["android_trace"]
+members = ["android_trace", "tracing_android_trace"]
 resolver = "2"
 
 [workspace.package]
 version = "0.1.0"
 license = "MIT OR Apache-2.0"
-# We use CStr::from_bytes_with_nul in a const context
-rust-version = "1.72"
+# Keep in sync with RUST_MIN_VER in .github/workflows/ci.yml and with the relevant README.md files.
+# We use C string literals
+rust-version = "1.77"
 
 repository = "https://github.com/DJMcNab/android_trace"
 edition = "2021"
+
+[workspace.lints.rust]
+unreachable_pub = "warn"
+unsafe_op_in_unsafe_fn = "warn"
+
+[workspace.lints.clippy]
+doc_markdown = "warn"
+semicolon_if_nothing_returned = "warn"

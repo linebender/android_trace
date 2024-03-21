@@ -29,14 +29,14 @@ android_trace = "0.1.0"
 ```
 
 The main entry point to the library is [AndroidTrace], which stores function pointers to each available NDK function:
-```rust
+```rust ,no_run
 use android_trace::AndroidTrace;
 let trace = AndroidTrace::new();
 
 // If the `is_enabled` method isn't available, we also shouldn't trace
 let should_trace = trace.is_enabled().unwrap_or(false);
 if should_trace {
-  trace.begin_section(CStr::from_bytes_with_nul("My expensive calculation\0").unwrap());
+  trace.begin_section(c"My expensive calculation");
 }
 
 // ...performing an expensive calculation
@@ -67,6 +67,13 @@ To support Android API versions less than 23, you should disable default feature
 [target.'cfg(target_os = "android")'.dependencies]
 android_trace = { version = "0.1.0", default-features = false }
 ```
+
+## Minimum supported Rust Version (MSRV)
+
+This version of Android Trace has been verified to compile with Rust 1.77 and later.
+
+Future versions of Android Trace might increase the Rust version requirement.
+It will not be treated as a breaking change and as such can even happen with small patch releases.
 
 ## Community
 

@@ -1,0 +1,50 @@
+[package]
+name = "tracing_android_trace"
+description = "Support for Android NDK Tracing"
+categories = []                                 # TODO
+keywords = []                                   # TODO
+readme = true
+
+version.workspace = true
+license.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+edition.workspace = true
+
+# Doing initial development, so not publishing yet
+publish = false
+
+[lints]
+workspace = true
+
+
+[dependencies]
+tracing-subscriber = { version = "0.3.18", default-features = false, features = [
+    "std",
+    "fmt",
+    "smallvec",
+] }
+tracing = "0.1.40"
+tracing-core = "0.1.32"
+smallvec = "1.13.1"
+thread_local = "1.1.8"
+
+[features]
+default = ["api_level_23"]
+
+api_level_23 = ["android_trace/api_level_23"]
+api_level_29 = ["android_trace/api_level_29"]
+
+[dev-dependencies]
+static_assertions = "1.1.0"
+
+[target.'cfg(target_os = "android")'.dependencies]
+# We only depend on android_trace on Android so that we can customise the
+# `compile_error` message
+android_trace = { path = "../android_trace", default-features = false }
+
+[package.metadata.docs.rs]
+default-target = "aarch64-linux-android"
+# In theory, we could add the other Android targets here. 
+# However, the API is identical across any of them, so there's no advantage
+targets = []
