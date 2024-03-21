@@ -9,7 +9,7 @@
 
 **Write [`tracing`] spans to Android [NDK Tracing]**
 
-[![Linebender Zulip](https://img.shields.io/badge/Linebender-%23general-orange?logo=Zulip)](https://xi.zulipchat.com/#narrow/stream/147921-general/topic/Android.20Tracing)
+[![Linebender Zulip](https://img.shields.io/badge/Linebender-%23general%20%3E%20Android%20Tracing-orange?logo=Zulip)](https://xi.zulipchat.com/#narrow/stream/147921-general/topic/Android.20Tracing)
 [![MIT/Apache 2.0](https://img.shields.io/badge/license-MIT%2FApache-blue.svg)](#license)
 [![tracing-subscriber version](https://img.shields.io/badge/tracing--subscriber-v0.3.18-a674e5.svg)](https://crates.io/crates/tracing-subscriber)
 

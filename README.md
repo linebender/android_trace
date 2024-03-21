@@ -4,7 +4,7 @@
 
 **Support for Android NDK [Tracing](https://developer.android.com/ndk/reference/group/tracing) in Rust**
 
-[![Linebender Zulip](https://img.shields.io/badge/Linebender-%23general%20%3E%20Android%20Tracing-orange)](https://xi.zulipchat.com/#narrow/stream/197075-gpu)
+[![Linebender Zulip](https://img.shields.io/badge/Linebender-%23general%20%3E%20Android%20Tracing-orange?logo=Zulip)](https://xi.zulipchat.com/#narrow/stream/197075-gpu)
 [![MIT/Apache 2.0](https://img.shields.io/badge/license-MIT%2FApache-blue.svg)](#license)
 <!-- [![dependency status](https://deps.rs/repo/github//status.svg)](https://deps.rs/repo/github/) -->
 <!-- [![Crates.io](https://img.shields.io/crates/v/vello.svg)](https://crates.io/crates/vello) -->
