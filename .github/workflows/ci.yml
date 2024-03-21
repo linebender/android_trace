@@ -193,4 +193,4 @@ jobs:
       # we don't expect those to exist, so we don't use cargo hack.
       # It is a shame that we can't detect those, though
       - name: cargo test --doc
-        run: cargo test -Zdoctest-xcompile --doc --workspace --each-feature --optional-deps
+        run: cargo test -Zdoctest-xcompile --doc --workspace
