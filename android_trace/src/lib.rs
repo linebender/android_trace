@@ -2,8 +2,10 @@
 // TODO: Is this a new pattern?
 "[AndroidTrace]: crate::AndroidTrace
 [dlsym]: libc::dlsym
-[`begin_section_try_async`]: AndroidTrace::begin_section_try_async
-[`end_section_try_async`]: AndroidTrace::end_section_try_async
+
+<style>
+.rustdoc-hidden { display: none; }
+</style>
 
 <!-- Hide the header section of the README when using rustdoc -->
 <div style=\"display:none\">
@@ -67,38 +69,20 @@ impl AndroidTrace {
         }
     }
 
-    /// Writes a tracing message to indicate that the given section of code has begun.
-    /// If the same cookie is used, this can re-open a previously closed section.
-    /// This is especially useful for tracking the same async task.
-    ///
-    /// This should be followed by a call to [`Self::end_section_try_async`] on the same thread, to close the
-    /// opened section.
-    ///
-    /// This calls [`Self::begin_async_section`], but if that fails to call into the NDK, it instead
-    /// calls [`Self::begin_section`].
-    pub fn begin_section_try_async(&self, section_name: &CStr, cookie: i32) {
-        if self.begin_async_section(section_name, cookie).is_none() {
-            self.begin_section(section_name);
-        }
-    }
-
-    /// Writes a tracing message to indicate that the given section of code has begun.
-    ///
-    /// This should follow a call to [`Self::begin_section_try_async`] on the same thread.
-    pub fn end_section_try_async(&self, section_name: &CStr, cookie: i32) {
-        if self.end_async_section(section_name, cookie).is_none() {
-            self.end_section();
-        }
-    }
-
     /// Returns Some(true) if tracing through Android Trace is enabled (and Some(false) if it is disabled).
+    /// This value is *not* guaranteed to have the same value over time.
+    /// Tracing may begin and end during execution.
+    /// Note that the Android platform does not provide any non-polling method for determining whether
+    /// this tracing is enabled.
+    ///
+    /// If `ATrace_isEnabled` is not available, returns None.
+    /// This means that none of the tracing methods will have any effect during this program execution,
+    /// and so can be skipped.
     ///
     /// Calls [`ATrace_isEnabled`](https://developer.android.com/ndk/reference/group/tracing#atrace_isenabled)
     /// if available. This is only available since Android API level 23. If the `api_level_23` feature is not
     /// enabled, this will attempt to access a dynamically linked version of the underlying function.
     /// Please note that `api_level_23` is a default feature.
-    ///
-    /// If `ATrace_isEnabled` is not available, returns None.
     #[doc(alias = "ATrace_isEnabled")]
     #[must_use = "Detecting if tracing is enabled has no side effects"]
     pub fn is_enabled(&self) -> Option<bool> {
@@ -223,7 +207,15 @@ impl AndroidTrace {
         }
     }
 
-    pub fn could_set_counter(&self) -> bool {
+    /// Whether the [`Self::set_counter`], [`Self::begin_async_section`] and [`Self::end_async_section`]
+    /// might do anything.
+    ///
+    /// This value *will* be the same across multiple calls (on this [`AndroidTrace`] instance -
+    /// see [`Self::new_downlevel`]), and so can be used as an early-fastpath feature.
+    ///
+    /// Note that you should also call [`Self::is_enabled`] if calculating
+    /// an individual value to pass to the corresponding functions will be expensive
+    pub fn could_use_api_level_29(&self) -> bool {
         #[cfg(not(feature = "api_level_29"))]
         return self.api_level_29.is_some();
         #[cfg(feature = "api_level_29")]

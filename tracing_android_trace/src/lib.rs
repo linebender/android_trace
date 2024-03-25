@@ -1,11 +1,13 @@
 #![doc = concat!(
 // TODO: Is this a new pattern?
-"[AndroidTrace]: crate::AndroidTrace
-[`tracing`]: tracing
-[`tracing_subscriber::Layer`]: tracing_subscriber::Layer
+"[`tracing`]: tracing
 [tracing_subscriber::filter]: tracing_subscriber::filter
-[tracing_subscriber]: tracing_subscriber
+[`tracing_subscriber`]: tracing_subscriber
+[`tracing_subscriber::Layer`]: tracing_subscriber::Layer
 [`AndroidTraceLayer`]: AndroidTraceLayer
+[`AndroidTraceAsyncLayer`]: AndroidTraceAsyncLayer
+[`android_trace`]: android_trace
+
 
 <style>
 .rustdoc-hidden { display: none; }
@@ -26,14 +28,16 @@ in your Cargo.toml"#
 );
 
 #[cfg(target_os = "android")]
-mod async_layer;
-#[cfg(target_os = "android")]
-mod sync_layer;
-
-#[cfg(target_os = "android")]
 pub use android_trace;
 
 #[cfg(target_os = "android")]
+mod async_layer;
+#[cfg(target_os = "android")]
 pub use async_layer::AndroidTraceAsyncLayer;
+
+#[cfg(target_os = "android")]
+mod sync_layer;
 #[cfg(target_os = "android")]
 pub use sync_layer::AndroidTraceLayer;
+
+// TODO: pub use some_mod::ATraceCounterLayer;

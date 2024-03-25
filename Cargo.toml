@@ -15,6 +15,8 @@ edition = "2021"
 [workspace.lints.rust]
 unreachable_pub = "warn"
 unsafe_op_in_unsafe_fn = "warn"
+missing_debug_implementations = "warn"
+missing_docs = "warn"
 
 [workspace.lints.clippy]
 doc_markdown = "warn"
