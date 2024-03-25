@@ -92,13 +92,19 @@ impl AndroidTrace {
     }
 
     /// Returns Some(true) if tracing through Android Trace is enabled (and Some(false) if it is disabled).
+    /// This value is *not* guaranteed to have the same value over time.
+    /// Tracing may begin and end during execution.
+    /// Note that the Android platform does not provide any non-polling method for determining whether
+    /// this tracing is enabled.
+    ///
+    /// If `ATrace_isEnabled` is not available, returns None.
+    /// This means that none of the tracing methods will have any effect during this program execution,
+    /// and so can be skipped.
     ///
     /// Calls [`ATrace_isEnabled`](https://developer.android.com/ndk/reference/group/tracing#atrace_isenabled)
     /// if available. This is only available since Android API level 23. If the `api_level_23` feature is not
     /// enabled, this will attempt to access a dynamically linked version of the underlying function.
     /// Please note that `api_level_23` is a default feature.
-    ///
-    /// If `ATrace_isEnabled` is not available, returns None.
     #[doc(alias = "ATrace_isEnabled")]
     #[must_use = "Detecting if tracing is enabled has no side effects"]
     pub fn is_enabled(&self) -> Option<bool> {
@@ -223,6 +229,10 @@ impl AndroidTrace {
         }
     }
 
+    /// Whether the [`Self::set_counter`] might do anything
+    ///
+    /// Note that you should also call [`Self::is_enabled`] if calculating
+    /// an individual counter value will be expensive
     pub fn could_set_counter(&self) -> bool {
         #[cfg(not(feature = "api_level_29"))]
         return self.api_level_29.is_some();
