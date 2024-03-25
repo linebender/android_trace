@@ -67,30 +67,6 @@ impl AndroidTrace {
         }
     }
 
-    /// Writes a tracing message to indicate that the given section of code has begun.
-    /// If the same cookie is used, this can re-open a previously closed section.
-    /// This is especially useful for tracking the same async task.
-    ///
-    /// This should be followed by a call to [`Self::end_section_try_async`] on the same thread, to close the
-    /// opened section.
-    ///
-    /// This calls [`Self::begin_async_section`], but if that fails to call into the NDK, it instead
-    /// calls [`Self::begin_section`].
-    pub fn begin_section_try_async(&self, section_name: &CStr, cookie: i32) {
-        if self.begin_async_section(section_name, cookie).is_none() {
-            self.begin_section(section_name);
-        }
-    }
-
-    /// Writes a tracing message to indicate that the given section of code has begun.
-    ///
-    /// This should follow a call to [`Self::begin_section_try_async`] on the same thread.
-    pub fn end_section_try_async(&self, section_name: &CStr, cookie: i32) {
-        if self.end_async_section(section_name, cookie).is_none() {
-            self.end_section();
-        }
-    }
-
     /// Returns Some(true) if tracing through Android Trace is enabled (and Some(false) if it is disabled).
     /// This value is *not* guaranteed to have the same value over time.
     /// Tracing may begin and end during execution.
