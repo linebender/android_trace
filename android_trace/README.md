@@ -28,7 +28,7 @@ This enables using [Android GPU Inspector](https://gpuinspector.dev/) for Rust c
 If you're reading this comment, you probably want the tracing_android_trace which is
 a sibling to this file's parent folder-->
 See [tracing_android_trace](https://crates.io/crates/tracing_android_trace)
-for an integration of this with [`tracing`][].
+for an integration of this with [`tracing`](https://docs.rs/tracing/latest/tracing/).
 
 ## Quickstart
 
@@ -111,4 +111,3 @@ at your option.
 [rust code of conduct]: https://www.rust-lang.org/policies/code-of-conduct
 [AndroidTrace]: https://docs.rs/android_trace/0.1.0/android_trace/struct.AndroidTrace.html
 [dlsym]: https://man7.org/linux/man-pages/man3/dlsym.3.html
-[`tracing`]: https://docs.rs/tracing/latest/tracing/

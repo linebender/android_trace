@@ -2,8 +2,6 @@
 // TODO: Is this a new pattern?
 "[AndroidTrace]: crate::AndroidTrace
 [dlsym]: libc::dlsym
-[`begin_section_try_async`]: AndroidTrace::begin_section_try_async
-[`end_section_try_async`]: AndroidTrace::end_section_try_async
 
 <style>
 .rustdoc-hidden { display: none; }

@@ -1,11 +1,13 @@
 #![doc = concat!(
 // TODO: Is this a new pattern?
-"[AndroidTrace]: crate::AndroidTrace
-[`tracing`]: tracing
-[`tracing_subscriber::Layer`]: tracing_subscriber::Layer
+"[`tracing`]: tracing
 [tracing_subscriber::filter]: tracing_subscriber::filter
-[tracing_subscriber]: tracing_subscriber
+[`tracing_subscriber`]: tracing_subscriber
+[`tracing_subscriber::Layer`]: tracing_subscriber::Layer
 [`AndroidTraceLayer`]: AndroidTraceLayer
+[`AndroidTraceAsyncLayer`]: AndroidTraceAsyncLayer
+[`android_trace`]: android_trace
+
 
 <style>
 .rustdoc-hidden { display: none; }
