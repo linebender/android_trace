@@ -11,12 +11,12 @@
 
 [![Linebender Zulip](https://img.shields.io/badge/Linebender-%23general%20%3E%20Android%20Tracing-orange?logo=Zulip)](https://xi.zulipchat.com/#narrow/stream/147921-general/topic/Android.20Tracing)
 [![MIT/Apache 2.0](https://img.shields.io/badge/license-MIT%2FApache-blue.svg)](#license)
+[![dependency status](https://deps.rs/crate/tracing_android_trace/latest/status.svg)](https://deps.rs/crate/tracing_android_trace)
 [![tracing-subscriber version](https://img.shields.io/badge/tracing--subscriber-v0.3.18-a674e5.svg)](https://crates.io/crates/tracing-subscriber)
 
-<!-- [![Crates.io](https://img.shields.io/crates/v/vello.svg)](https://crates.io/crates/vello) -->
-<!-- [![Docs](https://docs.rs/vello/badge.svg)](https://docs.rs/vello) -->
-<!-- [![Build status](https://github.com/linebender/vello/workflows/CI/badge.svg)](https://github.com/linebender/vello/actions) -->
-<!-- [![dependency status](https://deps.rs/repo/github//status.svg)](https://deps.rs/repo/github/) -->
+[![Crates.io](https://img.shields.io/crates/v/tracing_android_trace.svg)](https://crates.io/crates/tracing_android_trace)
+[![Docs](https://docs.rs/tracing_android_trace/badge.svg)](https://docs.rs/tracing_android_trace)
+
 </div>
 
 ⚠️ Tracing Android Trace only supports Android
@@ -102,13 +102,6 @@ tracing_android_trace = { version = "0.1.0", default-features = false }
 The following feature flags are available:
 - `api_level_23` (enabled by default): Require Android API level 23, to avoid some runtime symbol resolution
 - `api_level_29`: Require Android API level 29, disabling runtime symbol resolution entirely
-
-## Minimum supported Rust Version (MSRV)
-
-This version of Tracing Android Trace has been verified to compile with Rust 1.77 and later.
-
-Future versions of Tracing Android Trace might increase the Rust version requirement.
-It will not be treated as a breaking change and as such can even happen with small patch releases.
 
 <!-- We hide these elements when viewing in Rustdoc, because they're not expected to be present in crate level docs -->
 <div class="rustdoc-hidden">

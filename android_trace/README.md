@@ -11,14 +11,20 @@
 
 [![Linebender Zulip](https://img.shields.io/badge/Linebender-%23general-orange?logo=Zulip)](https://xi.zulipchat.com/#narrow/stream/147921-general/topic/Android.20Tracing)
 [![MIT/Apache 2.0](https://img.shields.io/badge/license-MIT%2FApache-blue.svg)](#license)
+[![dependency status](https://deps.rs/crate/android_trace/latest/status.svg)](https://deps.rs/crate/android_trace)
 
-<!-- [![Crates.io](https://img.shields.io/crates/v/vello.svg)](https://crates.io/crates/vello) -->
-<!-- [![Docs](https://docs.rs/vello/badge.svg)](https://docs.rs/vello) -->
-<!-- [![Build status](https://github.com/linebender/vello/workflows/CI/badge.svg)](https://github.com/linebender/vello/actions) -->
-<!-- [![dependency status](https://deps.rs/repo/github//status.svg)](https://deps.rs/repo/github/) -->
+[![Crates.io](https://img.shields.io/crates/v/android_trace.svg)](https://crates.io/crates/android_trace)
+[![Docs](https://docs.rs/android_trace/badge.svg)](https://docs.rs/android_trace)
+
 </div>
 
 ⚠️ Android Trace only supports Android
+
+Android Trace provides access to the Android NDK methods, such as `ATrace_beginSection` and `ATrace_endSection`.
+This enables using [Android GPU Inspector](https://gpuinspector.dev/) for Rust code.
+
+See [tracing_android_trace](https://github.com/DJMcNab/android_trace/tree/main/tracing_android_trace) 
+for an integration which uses this for tracing.
 
 ## Quickstart
 Add a dependency on Android Trace:
@@ -75,6 +81,9 @@ This version of Android Trace has been verified to compile with Rust 1.77 and la
 Future versions of Android Trace might increase the Rust version requirement.
 It will not be treated as a breaking change and as such can even happen with small patch releases.
 
+<!-- We hide these elements when viewing in Rustdoc, because they're not expected to be present in crate level docs -->
+<div class="rustdoc-hidden">
+
 ## Community
 
 Discussion of Android Trace development happens in the [Linebender Zulip](https://xi.zulipchat.com/), specifically in
@@ -93,6 +102,7 @@ Licensed under either of
    ([LICENSE-MIT](LICENSE-MIT) or <http://opensource.org/licenses/MIT>)
 
 at your option.
+</div>
 
 [rust code of conduct]: https://www.rust-lang.org/policies/code-of-conduct
 [AndroidTrace]: https://docs.rs/android_trace/todo

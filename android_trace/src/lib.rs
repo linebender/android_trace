@@ -5,6 +5,10 @@
 [`begin_section_try_async`]: AndroidTrace::begin_section_try_async
 [`end_section_try_async`]: AndroidTrace::end_section_try_async
 
+<style>
+.rustdoc-hidden { display: none; }
+</style>
+
 <!-- Hide the header section of the README when using rustdoc -->
 <div style=\"display:none\">
 ",
