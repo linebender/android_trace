@@ -9,7 +9,7 @@ license = "MIT OR Apache-2.0"
 # We use C string literals
 rust-version = "1.77"
 
-repository = "https://github.com/DJMcNab/android_trace"
+repository = "https://github.com/linebender/android_trace"
 edition = "2021"
 
 [workspace.lints.rust]
