@@ -20,7 +20,7 @@ env:
   # If the compilation fails, then the version specified here needs to be bumped up to reality.
   # Be sure to also update the rust-version property in the workspace Cargo.toml file,
   # plus all the README.md files of the affected packages.
-  MINIMUM_SUPPORTED_RUST_VERSION: "1.76"
+  MINIMUM_SUPPORTED_RUST_VERSION: "1.77"
 
 
 # Rationale
@@ -124,7 +124,6 @@ jobs:
         uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ env.MINIMUM_SUPPORTED_RUST_VERSION }}
-          components: clippy
           # Only check MSRV on aarch64-linux-android
           targets: aarch64-linux-android
 
