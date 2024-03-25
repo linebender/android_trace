@@ -33,7 +33,7 @@ use tracing_subscriber::{
 ///
 /// ## Usage
 ///
-/// This should be used as a layer on top of the [tracing_subscriber::Registry].
+/// This should be used as a layer on top of the [`tracing_subscriber::Registry`].
 /// ```no_run
 /// # use tracing_subscriber::prelude::*;
 ///

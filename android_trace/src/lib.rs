@@ -211,7 +211,7 @@ impl AndroidTrace {
     /// might do anything.
     ///
     /// This value *will* be the same across multiple calls (on this [`AndroidTrace`] instance -
-    /// see [Self::new_downlevel]), and so can be used as an early-fastpath feature.
+    /// see [`Self::new_downlevel`]), and so can be used as an early-fastpath feature.
     ///
     /// Note that you should also call [`Self::is_enabled`] if calculating
     /// an individual value to pass to the corresponding functions will be expensive
