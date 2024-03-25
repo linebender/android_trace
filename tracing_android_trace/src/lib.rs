@@ -26,14 +26,14 @@ in your Cargo.toml"#
 );
 
 #[cfg(target_os = "android")]
-mod async_layer;
-#[cfg(target_os = "android")]
-mod sync_layer;
-
-#[cfg(target_os = "android")]
 pub use android_trace;
 
 #[cfg(target_os = "android")]
+mod async_layer;
+#[cfg(target_os = "android")]
 pub use async_layer::AndroidTraceAsyncLayer;
+
+#[cfg(target_os = "android")]
+mod sync_layer;
 #[cfg(target_os = "android")]
 pub use sync_layer::AndroidTraceLayer;

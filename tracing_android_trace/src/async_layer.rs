@@ -10,21 +10,42 @@ use tracing_subscriber::{
     registry::LookupSpan,
 };
 
+/// A [`tracing_subscriber::Layer`] which uses [`ATrace_beginAsyncSection`](AndroidTrace::begin_async_section)
+/// and [`ATrace_endAsyncSection`](AndroidTrace::end_async_section)
+///
+/// This requires the host device to support Android API level 29, although if
+/// this level is not available, this layer has no effect.
+/// This does have some (small) runtime overhead, which can be avoided if the `api_level_29`
+/// feature is used (removing the graceful handling of lower API levels)
+/// See the [crate level documentation](crate#android-api-levels) for more.
+///
+/// It is recommended to use this layer with a suitable [`tracing_subscriber::filter`] to only
+/// target your desired async tasks, as each async task name will have a different row in the
+/// currently existing UIs for Android Tracing, which can be unwiedly
+#[derive(Debug)]
 pub struct AndroidTraceAsyncLayer {
     trace: AndroidTrace,
     fmt_fields: DefaultFields,
+    could_use_api_level_29: bool,
 }
 
 impl AndroidTraceAsyncLayer {
+    /// Create a `AndroidTraceAsyncLayer`
     pub fn new() -> Self {
         let trace = AndroidTrace::new();
         Self::with_trace(trace)
     }
 
+    /// Create a `AndroidTraceAsyncLayer` from a pre-existing [`AndroidTrace`].
+    /// This can avoid some minor synchronization costs if the `api_level_23` feature is disabled.
+    ///
+    /// Note that this takes ownership because `AndroidTrace` has a trivial `Clone`
     pub fn with_trace(trace: AndroidTrace) -> Self {
+        let could_use_api_level_29 = trace.could_use_api_level_29();
         AndroidTraceAsyncLayer {
             trace,
             fmt_fields: DefaultFields::new(),
+            could_use_api_level_29,
         }
     }
 }
@@ -51,7 +72,7 @@ where
         id: &span::Id,
         ctx: tracing_subscriber::layer::Context<'_, S>,
     ) {
-        if self.trace.is_enabled().unwrap_or(false) {
+        if self.could_use_api_level_29 && self.trace.is_enabled().unwrap_or(false) {
             let span = ctx.span(id).expect("Span not found, this is a bug");
             let mut extensions = span.extensions_mut();
             let mut name = String::from(attrs.metadata().name());

@@ -205,11 +205,15 @@ impl AndroidTrace {
         }
     }
 
-    /// Whether the [`Self::set_counter`] might do anything
+    /// Whether the [`Self::set_counter`], [`Self::begin_async_section`] and [`Self::end_async_section`]
+    /// might do anything.
+    ///
+    /// This value *will* be the same across multiple calls (on this [`AndroidTrace`] instance -
+    /// see [Self::new_downlevel]), and so can be used as an early-fastpath feature.
     ///
     /// Note that you should also call [`Self::is_enabled`] if calculating
-    /// an individual counter value will be expensive
-    pub fn could_set_counter(&self) -> bool {
+    /// an individual value to pass to the corresponding functions will be expensive
+    pub fn could_use_api_level_29(&self) -> bool {
         #[cfg(not(feature = "api_level_29"))]
         return self.api_level_29.is_some();
         #[cfg(feature = "api_level_29")]

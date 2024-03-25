@@ -16,6 +16,45 @@ use tracing_subscriber::{
     registry::LookupSpan,
 };
 
+/// A [`tracing_subscriber::Layer`] which uses [`ATrace_beginSection`](AndroidTrace::begin_section)
+/// and [`ATrace_endSection`](AndroidTrace::end_section)
+///
+/// This requires the host device to support Android API level 23, although this can be
+/// gracefully handled by disabling the `api_level_23` feature.
+/// See the [crate level documentation](crate#android-api-levels) for more.
+///
+/// <figure>
+/// <img src="https://github.com/DJMcNab/android_trace/assets/36049421/a7f03b74-d690-42be-91b5-326fbb698a03" alt="Screenshot showing a thread timeline including spans of a single thread">
+/// <figcaption>
+///
+/// Tracing spans for [Vello](https://github.com/linebender/vello) shown in Android GPU Inspector, created using this layer
+/// </figcaption>
+/// </figure>
+///
+/// ## Usage
+///
+/// This should be used as a layer on top of the [tracing_subscriber::Registry].
+/// ```no_run
+/// # use tracing_subscriber::prelude::*;
+///
+/// fn main(){
+///   tracing_subscriber::registry()
+///     .with(tracing_android_trace::AndroidTraceLayer::new())
+///     .try_init()
+///     .unwrap();
+/// }
+/// ```
+///
+/// ## Caveats
+///
+/// [tracing] does not guarantee that spans are exited in a true stack.
+/// This is mismatched with the assumptions made by `ATrace_beginSection` and `ATrace_endSection`.
+/// To work around this, this layer tears down all spans "above" an exiting span, then re-opens them.
+/// In this situation, we currently include a span with the name `_` to ensure that the child
+/// spans appear continuous, but this strategy might change - feedback welcome.
+///
+/// This may lead to spurious gaps in a trace in the prescense of interleaved spans.
+#[derive(Debug)]
 pub struct AndroidTraceLayer {
     trace: AndroidTrace,
     fmt_fields: DefaultFields,
@@ -23,11 +62,16 @@ pub struct AndroidTraceLayer {
 }
 
 impl AndroidTraceLayer {
+    /// Create a `AndroidTraceLayer`
     pub fn new() -> Self {
         let trace = AndroidTrace::new_downlevel();
         Self::with_trace(trace)
     }
 
+    /// Create a `AndroidTraceLayer` from a pre-existing [`AndroidTrace`].
+    /// This can avoid some minor synchronization costs if the `api_level_23` feature is disabled.
+    ///
+    /// Note that this takes ownership because `AndroidTrace` has a trivial `Clone`
     pub fn with_trace(trace: AndroidTrace) -> Self {
         AndroidTraceLayer {
             trace,
