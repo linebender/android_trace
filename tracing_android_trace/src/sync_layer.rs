@@ -154,26 +154,6 @@ where
 
     fn on_event(&self, _event: &tracing::Event<'_>, _: tracing_subscriber::layer::Context<'_, S>) {
         // TODO: Does it make sense to do anything here?
-
-        // if self.is_enabled {
-        //     let mut name = String::new();
-        //     event.record(&mut self.fmt_fields.make_visitor(Writer::new(&mut name)));
-
-        //     let name = CString::new(name);
-        //     match name {
-        //         Ok(name) => {
-        //             self.trace.begin_section(&name);
-        //             self.trace.end_section();
-        //         }
-        //         Err(e) => eprintln!(
-        //             concat!(
-        //                 "[tracing_android_trace] Unable to format the following ",
-        //                 "event due to a null byte ({:?}), ignoring: {:?}",
-        //             ),
-        //             e, event
-        //         ),
-        //     }
-        // }
     }
 
     fn on_enter(&self, id: &span::Id, ctx: tracing_subscriber::layer::Context<'_, S>) {

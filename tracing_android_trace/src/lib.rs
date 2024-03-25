@@ -37,3 +37,5 @@ pub use async_layer::AndroidTraceAsyncLayer;
 mod sync_layer;
 #[cfg(target_os = "android")]
 pub use sync_layer::AndroidTraceLayer;
+
+// TODO: pub use some_mod::ATraceCounterLayer;
