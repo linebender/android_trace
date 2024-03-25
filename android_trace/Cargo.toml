@@ -11,10 +11,6 @@ rust-version.workspace = true
 repository.workspace = true
 edition.workspace = true
 
-
-# Doing initial development, so not publishing yet
-publish = false
-
 [lints]
 workspace = true
 
