@@ -193,7 +193,7 @@ where
                 if data.extra_unclosed_values == 0 {
                     panic!("Internal error: The same span was exited twice?");
                 } else {
-                    data.extra_unclosed_values = data.extra_unclosed_values - 1;
+                    data.extra_unclosed_values -= 1;
                 }
             }
             return;
