@@ -61,7 +61,13 @@ use tracing_subscriber::{
 pub struct AndroidTraceLayer {
     trace: AndroidTrace,
     fmt_fields: DefaultFields,
-    current_actual_stack: ThreadLocal<RefCell<Vec<Option<Id>>>>,
+    current_actual_stack: ThreadLocal<RefCell<ThreadLocalData>>,
+}
+
+#[derive(Debug, Default)]
+struct ThreadLocalData {
+    stack: Vec<Option<Id>>,
+    extra_unclosed_values: u32,
 }
 
 impl AndroidTraceLayer {
@@ -166,7 +172,7 @@ where
         if let Some(ext) = extensions.get::<ATraceExtension>() {
             self.trace.begin_section(&ext.name);
             let stack = self.current_actual_stack.get_or_default();
-            stack.borrow_mut().push(Some(id.clone()));
+            stack.borrow_mut().stack.push(Some(id.clone()));
         }
     }
 
@@ -180,10 +186,19 @@ where
             // No spans had the extension, so nothing to do
             return;
         };
-        let mut stack = stack.borrow_mut();
+        let mut data = stack.borrow_mut();
+        let stack = &mut data.stack;
         if stack.is_empty() {
+            // This span should have been already closed in the case where a previous span was not
+            // found in the stack. This means that tracing was enabled then disabled
             let extensions = this_span.extensions();
-            debug_assert!(extensions.get::<ATraceExtension>().is_none());
+            if extensions.get::<ATraceExtension>().is_some() {
+                if data.extra_unclosed_values == 0 {
+                    panic!("Internal error: The same span was exited twice?");
+                } else {
+                    data.extra_unclosed_values -= 1;
+                }
+            }
             return;
         }
         let last = stack.last().unwrap().as_ref();
@@ -222,9 +237,19 @@ where
             }
 
             let Some(index_of_this) = index_of_this else {
-                eprintln!(
-                    "Didn't find span in the current stack. Maybe a span was sent between threads?",
-                );
+                // There are two cases where this could occur:
+                // 1) The span was created *before* tracing was enabled, then tracing was on and then off, then the span exited
+                // 2) The span was created then exited *after* tracing was disabled, but before all parent spans were exited
+                //
+                // In either case tracing is disabled
+                let extra_values = stack
+                    .len()
+                    .try_into()
+                    .expect("Shouldn't have more than u32::MAX depth of stack");
+                stack.clear();
+                data.extra_unclosed_values = extra_values;
+                let extensions = this_span.extensions();
+                debug_assert!(extensions.get::<ATraceExtension>().is_none());
                 return;
             };
             for id in stack[index_of_this..].iter() {
