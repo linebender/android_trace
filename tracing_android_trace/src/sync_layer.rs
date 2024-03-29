@@ -24,7 +24,7 @@ use tracing_subscriber::{
 /// See the [crate level documentation](crate#android-api-levels) for more.
 ///
 /// <figure>
-/// <img src="https://github.com/linebender/android_trace/assets/36049421/a7f03b74-d690-42be-91b5-326fbb698a03" alt="Screenshot showing a thread timeline including spans of a single thread">
+/// <img src="https://github.com/linebender/android_trace/assets/36049421/a7f03b74-d690-42be-91b5-326fbb698a03" alt="Screenshot showing a thread timeline including spans of a single thread.">
 /// <figcaption>
 ///
 /// Tracing spans for [Vello](https://github.com/linebender/vello) shown in Android GPU Inspector, created using this layer
