@@ -15,13 +15,13 @@
 
 This repository contains two crates for working with Android NDK Tracing.
 The most useful of these is likely to be the higher level Tracing Android Trace,
-which depends on the lower level Android Trace
+which depends on the lower level Android Trace.
 
 <figure>
-<img src="https://github.com/linebender/android_trace/assets/36049421/a7f03b74-d690-42be-91b5-326fbb698a03" alt="Screenshot showing a thread timeline including spans of a single thread">
+<img src="https://github.com/linebender/android_trace/assets/36049421/a7f03b74-d690-42be-91b5-326fbb698a03" alt="Screenshot showing a thread timeline including spans of a single thread.">
 <figcaption>
 
-Tracing spans for [Vello](https://github.com/linebender/vello) shown in Android GPU Inspector, created using Tracing Android Trace
+Tracing spans for [Vello](https://github.com/linebender/vello) shown in Android GPU Inspector, created using Tracing Android Trace.
 </figcaption>
 </figure>
 
