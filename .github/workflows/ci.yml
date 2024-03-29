@@ -66,14 +66,13 @@ jobs:
       - name: cargo fmt
         run: cargo fmt --all --check
 
-      # TODO: Probably should have copyright headers 
-      # - name: install ripgrep
-      #   run: |
-      #     sudo apt update
-      #     sudo apt install ripgrep
+      - name: install ripgrep
+        run: |
+          sudo apt update
+          sudo apt install ripgrep
 
-      # - name: check copyright headers
-      #   run: bash .github/copyright.sh
+      - name: check copyright headers
+        run: bash .github/copyright.sh
 
   clippy-stable:
     name: cargo clippy

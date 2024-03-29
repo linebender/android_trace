@@ -1,3 +1,6 @@
+// Copyright 2024 the Android Trace Authors
+// SPDX-License-Identifier: Apache-2.0 OR MIT
+
 #[cfg(not(all(feature = "api_level_23", feature = "api_level_29")))]
 use core::{
     ffi::{c_void, CStr},

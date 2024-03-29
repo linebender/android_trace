@@ -1,3 +1,6 @@
+// Copyright 2024 the Android Trace Authors
+// SPDX-License-Identifier: Apache-2.0 OR MIT
+
 #![doc = concat!(
 // TODO: Is this a new pattern?
 "[`tracing`]: tracing
