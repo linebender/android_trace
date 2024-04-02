@@ -1,3 +1,6 @@
+// Copyright 2024 the Android Trace Authors
+// SPDX-License-Identifier: Apache-2.0 OR MIT
+
 use std::ffi::CString;
 
 use android_trace::AndroidTrace;

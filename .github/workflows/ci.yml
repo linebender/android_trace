@@ -3,10 +3,8 @@ env:
   # version like 1.70. Note that we only specify MAJOR.MINOR and not PATCH so that bugfixes still
   # come automatically. If the version specified here is no longer the latest stable version,
   # then please feel free to submit a PR that adjusts it along with the potential clippy fixes.
-  # RUST_STABLE_VER: "1.77" # In quotes because otherwise (e.g.) 1.70 would be interpreted as 1.7
-  
   # When updating this, also update RUST_DOCS_COMPILE_VER below to the same version
-  RUST_STABLE_VER: "beta"
+  RUST_STABLE_VER: "1.77" # In quotes because otherwise (e.g.) 1.70 would be interpreted as 1.7
   # The version of rustc we use to test that doc examples compile.
   # This is required because we depend on the unstable `-Zdoctest-xcompile`.
   # See https://github.com/rust-lang/rust/issues/64245
@@ -15,12 +13,14 @@ env:
   # cargo 1.77.0 (3fe68eabf 2024-02-29)
   # So the date used when we depended on 1.77 was 2024-02-29
   RUST_DOCS_COMPILE_VER: "nightly-2024-02-29"
-
   # The purpose of checking with the minimum supported Rust toolchain is to detect its staleness.
   # If the compilation fails, then the version specified here needs to be bumped up to reality.
   # Be sure to also update the rust-version property in the workspace Cargo.toml file,
   # plus all the README.md files of the affected packages.
-  MINIMUM_SUPPORTED_RUST_VERSION: "beta"
+  RUST_MIN_VER: "1.77"
+  # List of packages that will be checked with the minimum supported Rust version.
+  # This should be limited to packages that are intended for publishing.
+  RUST_MIN_VER_PKGS: "-p android_trace -p tracing_android_trace"
 
 
 # Rationale
@@ -40,6 +40,9 @@ env:
 #
 # Using cargo-hack also allows us to more easily test the feature matrix of our packages.
 # We use --each-feature & --optional-deps which will run a separate check for every feature.
+#
+# The MSRV jobs run only cargo check because different clippy versions can disagree on goals and
+# running tests introduces dev dependencies which may require a higher MSRV than the bare package.
 
 name: CI
 
@@ -48,9 +51,9 @@ on:
   merge_group:
 
 jobs:
-  rustfmt:
-    runs-on: ubuntu-latest
+  fmt:
     name: cargo fmt
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -63,22 +66,21 @@ jobs:
       - name: cargo fmt
         run: cargo fmt --all --check
 
-      # TODO: Probably should have copyright headers 
-      # - name: install ripgrep
-      #   run: |
-      #     sudo apt update
-      #     sudo apt install ripgrep
+      - name: install ripgrep
+        run: |
+          sudo apt update
+          sudo apt install ripgrep
 
-      # - name: check copyright headers
-      #   run: bash .github/copyright.sh
+      - name: check copyright headers
+        run: bash .github/copyright.sh
 
-  test-stable:
+  clippy-stable:
+    name: cargo clippy
     runs-on: ubuntu-latest
     strategy:
       matrix:
         # We don't have any ABI specific code, but it's best to double check anyway
         android_target: [armv7-linux-androideabi, aarch64-linux-android, x86_64-linux-android]
-    name: cargo clippy
     steps:
       - uses: actions/checkout@v4
 
@@ -100,18 +102,35 @@ jobs:
           tool: cargo-hack
 
       - name: cargo clippy
-        run: cargo hack clippy --target ${{ matrix.android_target }} --workspace --each-feature --optional-deps -- -D warnings
+        run: cargo hack clippy --workspace --locked --target ${{ matrix.android_target }} --each-feature --optional-deps -- -D warnings
   
       - name: cargo clippy (auxiliary)
-        run: cargo hack clippy --target ${{ matrix.android_target }} --workspace --each-feature --optional-deps --tests --benches --examples -- -D warnings
+        run: cargo hack clippy --workspace --locked --target ${{ matrix.android_target }} --each-feature --optional-deps --tests --benches --examples -- -D warnings
 
-      # TODO: Find a way to run tests
-      # - name: cargo test
-      #   run: cargo test --workspace --all-features
+  # TODO: Find a way to run tests
+  # test-stable:
+  #   name: cargo test
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       android_target: [armv7-linux-androideabi, aarch64-linux-android, x86_64-linux-android]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #
+  #     - name: restore cache
+  #       uses: Swatinem/rust-cache@v2
+  #
+  #     - name: install stable toolchain
+  #       uses: dtolnay/rust-toolchain@master
+  #       with:
+  #         toolchain: ${{ env.RUST_STABLE_VER }}
+  #
+  #     - name: cargo test
+  #       run: cargo test --workspace --locked --target ${{ matrix.android_target }} --all-features
 
   check-msrv:
+    name: cargo check (msrv)
     runs-on: ubuntu-latest
-    name: cargo check (MSRV)
     steps:
       - uses: actions/checkout@v4
 
@@ -123,8 +142,7 @@ jobs:
       - name: install stable toolchain
         uses: dtolnay/rust-toolchain@master
         with:
-          toolchain: ${{ env.MINIMUM_SUPPORTED_RUST_VERSION }}
-          components: clippy
+          toolchain: ${{ env.RUST_MIN_VER }}
           # Only check MSRV on aarch64-linux-android
           targets: aarch64-linux-android
 
@@ -133,23 +151,10 @@ jobs:
         with:
           tool: cargo-hack
 
-        # We use cargo check rather than clippy, because if a lint used to have false-positives
-        # we don't want them to still exist
       - name: cargo check
-        run: cargo hack check --target aarch64-linux-android --workspace --each-feature --optional-deps
-        env:
-          RUSTFLAGS: '-D warnings'
+        run: cargo hack check ${{ env.RUST_MIN_VER_PKGS }} --locked --target aarch64-linux-android --each-feature --optional-deps
 
-      - name: cargo check (auxiliary)
-        run: cargo hack check --target aarch64-linux-android --workspace --each-feature --optional-deps --tests --benches --examples
-        env:
-          RUSTFLAGS: '-D warnings'
-
-      # TODO: Find a way to run tests
-      # - name: cargo test
-      #   run: cargo test --workspace --all-features
-
-  docs:
+  doc:
     name: cargo doc
     runs-on: ubuntu-latest
     steps:
@@ -167,7 +172,7 @@ jobs:
 
       # We test documentation using nightly to match docs.rs. This prevents potential breakages
       - name: cargo doc
-        run: cargo doc --workspace --all-features --no-deps --document-private-items -Zunstable-options -Zrustdoc-scrape-examples
+        run: cargo doc --workspace --locked --target aarch64-linux-android --all-features --no-deps --document-private-items -Zunstable-options -Zrustdoc-scrape-examples
 
   docs-compile:
     name: cargo test --doc
@@ -193,4 +198,4 @@ jobs:
       # we don't expect those to exist, so we don't use cargo hack.
       # It is a shame that we can't detect those, though
       - name: cargo test --doc
-        run: cargo test -Zdoctest-xcompile --doc --workspace
+        run: cargo test --doc --workspace --locked --target aarch64-linux-android --all-features -Zdoctest-xcompile
