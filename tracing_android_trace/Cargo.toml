@@ -33,7 +33,9 @@ thread_local = "1.1.8"
 [features]
 default = ["api_level_23"]
 
+# Assume that Android API level 23 is available, to avoid some runtime symbol lookups
 api_level_23 = ["android_trace/api_level_23"]
+# Assume that Android API level 29 is available, to avoid runtime symbol lookups entirely
 api_level_29 = ["android_trace/api_level_29"]
 
 [dev-dependencies]

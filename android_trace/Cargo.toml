@@ -20,7 +20,9 @@ libc = "0.2.153"
 
 [features]
 default = ["api_level_23"]
+# Assume that Android API level 23 is available, to avoid some runtime symbol lookups
 api_level_23 = []
+# Assume that Android API level 29 is available, to avoid runtime symbol lookups entirely
 api_level_29 = ["api_level_23"]
 
 [dev-dependencies]
