@@ -1,18 +1,19 @@
 [package]
 name = "tracing_android_trace"
 description = "Support for Android NDK Tracing"
-categories = []                                 # TODO
-keywords = []                                   # TODO
+categories = [
+    "development-tools::debugging",
+    "os",
+    "development-tools::profiling",
+]
+keywords = ["android", "logging", "tracing"]
 readme = true
+version = "0.1.0"
 
-version.workspace = true
 license.workspace = true
 rust-version.workspace = true
 repository.workspace = true
 edition.workspace = true
-
-# Doing initial development, so not publishing yet
-publish = false
 
 [lints]
 workspace = true
@@ -32,7 +33,9 @@ thread_local = "1.1.8"
 [features]
 default = ["api_level_23"]
 
+# Assume that Android API level 23 is available, to avoid some runtime symbol lookups
 api_level_23 = ["android_trace/api_level_23"]
+# Assume that Android API level 29 is available, to avoid runtime symbol lookups entirely
 api_level_29 = ["android_trace/api_level_29"]
 
 [dev-dependencies]
@@ -41,7 +44,7 @@ static_assertions = "1.1.0"
 [target.'cfg(target_os = "android")'.dependencies]
 # We only depend on android_trace on Android so that we can customise the
 # `compile_error` message
-android_trace = { path = "../android_trace", default-features = false }
+android_trace = { workspace = true, default-features = false }
 
 [package.metadata.docs.rs]
 default-target = "aarch64-linux-android"

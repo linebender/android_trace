@@ -3,14 +3,16 @@ members = ["android_trace", "tracing_android_trace"]
 resolver = "2"
 
 [workspace.package]
-version = "0.1.0"
 license = "Apache-2.0 OR MIT"
 # Keep in sync with RUST_MIN_VER in .github/workflows/ci.yml and with the relevant README.md files.
 # We use C string literals
 rust-version = "1.77"
 
-repository = "https://github.com/DJMcNab/android_trace"
+repository = "https://github.com/linebender/android_trace"
 edition = "2021"
+
+[workspace.dependencies]
+android_trace = { path = "./android_trace", version = "0.1.0", default-features = false }
 
 [workspace.lints.rust]
 unreachable_pub = "warn"

@@ -1,19 +1,16 @@
 [package]
 name = "android_trace"
 description = "Support for Android NDK Tracing"
-categories = ["api-bindings", "development-tools::debugging", "os"]
-keywords = ["android", "trace", "logging", "atrace"]
+categories = ["api-bindings", "os"]
+keywords = ["android", "logging", "atrace", "ndk"]
 readme = true
+# When updating, also update the version in the dependency in the workspace Cargo.toml
+version = "0.1.0"
 
-version.workspace = true
 license.workspace = true
 rust-version.workspace = true
 repository.workspace = true
 edition.workspace = true
-
-
-# Doing initial development, so not publishing yet
-publish = false
 
 [lints]
 workspace = true
@@ -22,8 +19,10 @@ workspace = true
 libc = "0.2.153"
 
 [features]
-default = []
+default = ["api_level_23"]
+# Assume that Android API level 23 is available, to avoid some runtime symbol lookups
 api_level_23 = []
+# Assume that Android API level 29 is available, to avoid runtime symbol lookups entirely
 api_level_29 = ["api_level_23"]
 
 [dev-dependencies]

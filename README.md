@@ -6,8 +6,8 @@
 
 [![Linebender Zulip](https://img.shields.io/badge/Linebender-%23general%20%3E%20Android%20Tracing-orange?logo=Zulip)](https://xi.zulipchat.com/#narrow/stream/197075-gpu)
 [![MIT/Apache 2.0](https://img.shields.io/badge/license-MIT%2FApache-blue.svg)](#license)
-[![Build status](https://github.com/DJMcNab/android_trace/workflows/CI/badge.svg)](https://github.com/DJMcNab/android_trace/actions)
-[![dependency status](https://deps.rs/repo/github/DJMcNab/android_trace/status.svg)](https://deps.rs/repo/github/DJMcNab/android_trace)
+[![Build status](https://github.com/linebender/android_trace/workflows/CI/badge.svg)](https://github.com/linebender/android_trace/actions)
+[![dependency status](https://deps.rs/repo/github/linebender/android_trace/status.svg)](https://deps.rs/repo/github/linebender/android_trace)
 
 </div>
 
@@ -15,7 +15,15 @@
 
 This repository contains two crates for working with Android NDK Tracing.
 The most useful of these is likely to be the higher level Tracing Android Trace,
-which depends on the lower level Android Trace
+which depends on the lower level Android Trace.
+
+<figure>
+<img src="https://github.com/linebender/android_trace/assets/36049421/a7f03b74-d690-42be-91b5-326fbb698a03" alt="Screenshot showing a thread timeline including spans of a single thread.">
+<figcaption>
+
+Tracing spans for [Vello](https://github.com/linebender/vello) shown in Android GPU Inspector, created using Tracing Android Trace.
+</figcaption>
+</figure>
 
 ## Tracing Android Trace [tracing_android_trace](./tracing_android_trace)
 
