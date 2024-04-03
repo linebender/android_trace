@@ -124,6 +124,7 @@ If you encounter a compilation issue due to a dependency and don't want to upgra
 # Use the problematic dependency's name and version
 cargo update -p package_name --precise 0.1.1
 ```
+
 </details>
 
 <!-- We hide these elements when viewing in Rustdoc, because they're not expected to be present in crate level docs -->
