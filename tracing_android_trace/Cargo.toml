@@ -4,8 +4,8 @@ description = "Support for Android NDK Tracing"
 categories = []                                 # TODO
 keywords = []                                   # TODO
 readme = true
+version = "0.1.0"
 
-version.workspace = true
 license.workspace = true
 rust-version.workspace = true
 repository.workspace = true
@@ -38,7 +38,7 @@ static_assertions = "1.1.0"
 [target.'cfg(target_os = "android")'.dependencies]
 # We only depend on android_trace on Android so that we can customise the
 # `compile_error` message
-android_trace = { path = "../android_trace", default-features = false }
+android_trace = { workspace = true, default-features = false }
 
 [package.metadata.docs.rs]
 default-target = "aarch64-linux-android"
