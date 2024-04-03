@@ -19,7 +19,7 @@ workspace = true
 libc = "0.2.153"
 
 [features]
-default = []
+default = ["api_level_23"]
 api_level_23 = []
 api_level_29 = ["api_level_23"]
 
