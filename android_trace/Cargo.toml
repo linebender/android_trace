@@ -1,8 +1,8 @@
 [package]
 name = "android_trace"
 description = "Support for Android NDK Tracing"
-categories = ["api-bindings", "development-tools::debugging", "os"]
-keywords = ["android", "trace", "logging", "atrace"]
+categories = ["api-bindings", "os"]
+keywords = ["android", "logging", "atrace", "ndk"]
 readme = true
 # When updating, also update the version in the dependency in the workspace Cargo.toml
 version = "0.1.0"

@@ -1,8 +1,12 @@
 [package]
 name = "tracing_android_trace"
 description = "Support for Android NDK Tracing"
-categories = []                                 # TODO
-keywords = []                                   # TODO
+categories = [
+    "development-tools::debugging",
+    "os",
+    "development-tools::profiling",
+]
+keywords = ["android", "logging", "tracing"]
 readme = true
 version = "0.1.0"
 
