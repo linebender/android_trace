@@ -1,21 +1,20 @@
-<div align="center">
+<div align="center" class="rustdoc-hidden">
 
 # Android Trace
 
-</div>
-<!-- Close the <div> opened in lib.rs for rustdoc, which hides the above title -->
 </div>
 
 <div align="center">
 
 **Support for Android NDK [Tracing](https://developer.android.com/ndk/reference/group/tracing)**
 
-[![Linebender Zulip](https://img.shields.io/badge/Linebender-%23general-orange?logo=Zulip)](https://xi.zulipchat.com/#narrow/stream/147921-general/topic/Android.20Tracing)
-[![MIT/Apache 2.0](https://img.shields.io/badge/license-MIT%2FApache-blue.svg)](#license)
-[![dependency status](https://deps.rs/crate/android_trace/latest/status.svg)](https://deps.rs/crate/android_trace)
-
-[![Crates.io](https://img.shields.io/crates/v/android_trace.svg)](https://crates.io/crates/android_trace)
-[![Docs](https://docs.rs/android_trace/badge.svg)](https://docs.rs/android_trace)
+[![Latest published version.](https://img.shields.io/crates/v/android_trace.svg)](https://crates.io/crates/android_trace)
+[![Documentation build status.](https://img.shields.io/docsrs/android_trace.svg)](https://docs.rs/android_trace)
+[![Apache 2.0 or MIT license.](https://img.shields.io/badge/license-Apache--2.0_OR_MIT-blue.svg)](#license)
+\
+[![Linebender Zulip chat.](https://img.shields.io/badge/Linebender-%23general%20%3E%20Android%20Tracing-blue?logo=Zulip)](https://xi.zulipchat.com/#narrow/stream/147921-general/topic/Android.20Tracing)
+[![GitHub Actions CI status.](https://img.shields.io/github/actions/workflow/status/linebender/android_trace/ci.yml?logo=github&label=CI)](https://github.com/linebender/android_trace/actions)
+[![Dependency staleness status.](https://deps.rs/crate/android_trace/latest/status.svg)](https://deps.rs/crate/android_trace)
 
 </div>
 
@@ -114,13 +113,17 @@ Contributions are welcome by pull request. The [Rust code of conduct][] applies.
 Licensed under either of
 
  * Apache License, Version 2.0
-   ([LICENSE-APACHE](LICENSE-APACHE) or <http://www.apache.org/licenses/LICENSE-2.0>)
+   ([LICENSE-APACHE][] or <http://www.apache.org/licenses/LICENSE-2.0>)
  * MIT license
-   ([LICENSE-MIT](LICENSE-MIT) or <http://opensource.org/licenses/MIT>)
+   ([LICENSE-MIT][] or <http://opensource.org/licenses/MIT>)
 
 at your option.
 </div>
 
 [rust code of conduct]: https://www.rust-lang.org/policies/code-of-conduct
+[LICENSE-APACHE]: LICENSE-APACHE
+[LICENSE-MIT]: LICENSE-MIT
+
+<!-- Replacement intra-doc links for GitHub and crates.io. See https://linebender.org/blog/doc-include -->
 [AndroidTrace]: https://docs.rs/android_trace/0.1.0/android_trace/struct.AndroidTrace.html
 [dlsym]: https://man7.org/linux/man-pages/man3/dlsym.3.html

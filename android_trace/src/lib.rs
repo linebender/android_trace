@@ -1,20 +1,17 @@
 // Copyright 2024 the Android Trace Authors
 // SPDX-License-Identifier: Apache-2.0 OR MIT
 
-#![doc = concat!(
-// TODO: Is this a new pattern?
-"[AndroidTrace]: crate::AndroidTrace
-[dlsym]: libc::dlsym
-
-<style>
-.rustdoc-hidden { display: none; }
-</style>
-
-<!-- Hide the header section of the README when using rustdoc -->
-<div style=\"display:none\">
-",
-    include_str!("../README.md"),
-)]
+// https://linebender.org/blog/doc-include
+//! [AndroidTrace]: crate::AndroidTrace
+//! [dlsym]: libc::dlsym
+// File links are not supported by rustdoc
+//! [LICENSE-APACHE]: https://github.com/linebender/android_trace/blob/main/LICENSE-APACHE
+//! [LICENSE-MIT]: https://github.com/linebender/android_trace/blob/main/LICENSE-MIT
+//!
+//! <style>
+//! .rustdoc-hidden { display: none; }
+//! </style>
+#![doc =  include_str!("../README.md")]
 
 #[cfg(not(feature = "api_level_23"))]
 use ffi::ATraceAPILevel23Methods;
