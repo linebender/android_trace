@@ -33,7 +33,7 @@ This limitation is due to the underlying Android platform APIs.
 <img src="https://github.com/linebender/android_trace/assets/36049421/a7f03b74-d690-42be-91b5-326fbb698a03" alt="Screenshot showing a thread timeline including spans of a single thread.">
 <figcaption>
 
-Tracing spans for [tracing_android_trace](https://github.com/linebender/tracing_android_trace) shown in Android GPU Inspector
+Tracing spans for [vello](https://github.com/linebender/vello) shown in Android GPU Inspector
 </figcaption>
 </figure>
 
