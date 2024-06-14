@@ -24,6 +24,7 @@ You can find its changes [documented below](#011---2024-06-14).
 ### Added
 
 - License files in Cargo packages ([#12] by [@DJMcNab])
+- This changelog ([#13] by [@DJMcNab])
 
 ### Changed
 
@@ -39,6 +40,7 @@ You can find its changes [documented below](#011---2024-06-14).
 
 [#11]: https://github.com/linebender/android_trace/pull/11
 [#12]: https://github.com/linebender/android_trace/pull/12
+[#13]: https://github.com/linebender/android_trace/pull/13
 
 [Unreleased]: https://github.com/linebender/android_trace/compare/v0.1.1...HEAD
 [0.1.1]: https://github.com/linebender/android_trace/compare/v0.1.0...v0.1.1
