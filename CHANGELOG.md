@@ -8,8 +8,8 @@ Subheadings to categorize changes are `added, changed, deprecated, removed, fixe
 
 # Changelog
 
-The latest published Vello release is [0.1.1](#011---2024-06-14) which was released on 2024-06-08.
-You can find its changes [documented below](#010---2024-04-03).
+The latest published Android Trace release is [0.1.1](#011---2024-06-14) which was released on 2024-06-08.
+You can find its changes [documented below](#011---2024-06-14).
 
 ## [Unreleased]
 
@@ -40,6 +40,6 @@ You can find its changes [documented below](#010---2024-04-03).
 [#11]: https://github.com/linebender/android_trace/pull/11
 [#12]: https://github.com/linebender/android_trace/pull/12
 
-[Unreleased]: https://github.com/linebender/vello/compare/v0.1.1...HEAD
-[0.1.1]: https://github.com/linebender/vello/compare/v0.1.0...v0.1.1
-[0.1.0]: https://github.com/linebender/vello/releases/tag/v0.1.0
+[Unreleased]: https://github.com/linebender/android_trace/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/linebender/android_trace/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/linebender/android_trace/releases/tag/v0.1.0
