@@ -35,6 +35,8 @@ Tracing spans for [Vello](https://github.com/linebender/vello) shown in Android 
 </figcaption>
 </figure>
 
+Significant changes are documented in [the changelog][].
+
 ## Quickstart
 
 Add a dependency on Android Trace (and on [`tracing_subscriber`][]).
@@ -152,6 +154,7 @@ at your option.
 
 [NDK Tracing]: https://developer.android.com/ndk/reference/group/tracing
 [`android_trace`]: https://crates.io/crates/android_trace
+[the changelog]: https://github.com/linebender/android_trace/blob/main/CHANGELOG.md
 [rust code of conduct]: https://www.rust-lang.org/policies/code-of-conduct
 [LICENSE-APACHE]: LICENSE-APACHE
 [LICENSE-MIT]: LICENSE-MIT
