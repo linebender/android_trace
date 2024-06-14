@@ -1,8 +1,12 @@
 // Copyright 2024 the Android Trace Authors
 // SPDX-License-Identifier: Apache-2.0 OR MIT
 
+// https://linebender.org/blog/doc-include
 //! [AndroidTrace]: crate::AndroidTrace
 //! [dlsym]: libc::dlsym
+// File links: not supported by rustdoc
+//! [LICENSE-APACHE]: https://github.com/linebender/android_trace/blob/main/LICENSE-APACHE
+//! [LICENSE-MIT]: https://github.com/linebender/android_trace/blob/main/LICENSE-MIT
 //!
 //! <style>
 //! .rustdoc-hidden { display: none; }

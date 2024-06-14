@@ -115,13 +115,17 @@ Contributions are welcome by pull request. The [Rust code of conduct][] applies.
 Licensed under either of
 
  * Apache License, Version 2.0
-   ([LICENSE-APACHE](LICENSE-APACHE) or <http://www.apache.org/licenses/LICENSE-2.0>)
+   ([LICENSE-APACHE][] or <http://www.apache.org/licenses/LICENSE-2.0>)
  * MIT license
-   ([LICENSE-MIT](LICENSE-MIT) or <http://opensource.org/licenses/MIT>)
+   ([LICENSE-MIT][] or <http://opensource.org/licenses/MIT>)
 
 at your option.
 </div>
 
 [rust code of conduct]: https://www.rust-lang.org/policies/code-of-conduct
+[LICENSE-APACHE]: LICENSE-APACHE
+[LICENSE-MIT]: LICENSE-MIT
+
+<!-- Replacement intra-doc links for GitHub and crates.io. See https://linebender.org/blog/doc-include -->
 [AndroidTrace]: https://docs.rs/android_trace/0.1.0/android_trace/struct.AndroidTrace.html
 [dlsym]: https://man7.org/linux/man-pages/man3/dlsym.3.html
