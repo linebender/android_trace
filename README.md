@@ -7,7 +7,7 @@
 [![Linebender Zulip](https://img.shields.io/badge/Linebender-%23general%20%3E%20Android%20Tracing-blue?logo=Zulip)](https://xi.zulipchat.com/#narrow/stream/197075-gpu)
 [![MIT/Apache 2.0](https://img.shields.io/badge/license-MIT%2FApache-blue.svg)](#license)
 [![Build status](https://github.com/linebender/android_trace/workflows/CI/badge.svg)](https://github.com/linebender/android_trace/actions)
-[![dependency status](https://deps.rs/repo/github/linebender/android_trace/status.svg)](https://deps.rs/repo/github/linebender/android_trace)
+[![Dependency staleness status.](https://deps.rs/repo/github/linebender/android_trace/status.svg)](https://deps.rs/repo/github/linebender/android_trace)
 
 </div>
 
