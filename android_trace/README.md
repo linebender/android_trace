@@ -10,12 +10,13 @@
 
 **Support for Android NDK [Tracing](https://developer.android.com/ndk/reference/group/tracing)**
 
-[![Linebender Zulip](https://img.shields.io/badge/Linebender-%23general-orange?logo=Zulip)](https://xi.zulipchat.com/#narrow/stream/147921-general/topic/Android.20Tracing)
-[![MIT/Apache 2.0](https://img.shields.io/badge/license-MIT%2FApache-blue.svg)](#license)
-[![dependency status](https://deps.rs/crate/android_trace/latest/status.svg)](https://deps.rs/crate/android_trace)
-
-[![Crates.io](https://img.shields.io/crates/v/android_trace.svg)](https://crates.io/crates/android_trace)
-[![Docs](https://docs.rs/android_trace/badge.svg)](https://docs.rs/android_trace)
+[![Latest published version.](https://img.shields.io/crates/v/android_trace.svg)](https://crates.io/crates/android_trace)
+[![Documentation build status.](https://img.shields.io/docsrs/android_trace.svg)](https://docs.rs/android_trace)
+[![Apache 2.0 or MIT license.](https://img.shields.io/badge/license-Apache--2.0_OR_MIT-blue.svg)](#license)
+\
+[![Linebender Zulip chat.](https://img.shields.io/badge/Linebender-%23general%20%3E%20Android%20Tracing-orange?logo=Zulip)](https://xi.zulipchat.com/#narrow/stream/147921-general/topic/Android.20Tracing)
+[![GitHub Actions CI status.](https://img.shields.io/github/actions/workflow/status/linebender/android_trace/ci.yml?logo=github&label=CI)](https://github.com/linebender/android_trace/actions)
+[![Dependency staleness status.](https://deps.rs/crate/android_trace/latest/status.svg)](https://deps.rs/crate/android_trace)
 
 </div>
 

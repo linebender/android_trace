@@ -10,13 +10,14 @@
 
 **Write [`tracing`][] spans to Android [NDK Tracing][]**
 
-[![Linebender Zulip](https://img.shields.io/badge/Linebender-%23general%20%3E%20Android%20Tracing-orange?logo=Zulip)](https://xi.zulipchat.com/#narrow/stream/147921-general/topic/Android.20Tracing)
-[![MIT/Apache 2.0](https://img.shields.io/badge/license-MIT%2FApache-blue.svg)](#license)
-[![dependency status](https://deps.rs/crate/tracing_android_trace/latest/status.svg)](https://deps.rs/crate/tracing_android_trace)
+[![Latest published version.](https://img.shields.io/crates/v/tracing_android_trace.svg)](https://crates.io/crates/tracing_android_trace)
+[![Documentation build status.](https://img.shields.io/docsrs/tracing_android_trace.svg)](https://docs.rs/tracing_android_trace)
+[![Apache 2.0 or MIT license.](https://img.shields.io/badge/license-Apache--2.0_OR_MIT-blue.svg)](#license)
 [![tracing-subscriber version](https://img.shields.io/badge/tracing--subscriber-v0.3.18-a674e5.svg)](https://crates.io/crates/tracing-subscriber)
-
-[![Crates.io](https://img.shields.io/crates/v/tracing_android_trace.svg)](https://crates.io/crates/tracing_android_trace)
-[![Docs](https://docs.rs/tracing_android_trace/badge.svg)](https://docs.rs/tracing_android_trace)
+\
+[![Linebender Zulip chat.](https://img.shields.io/badge/Linebender-%23general%20%3E%20Android%20Tracing-orange?logo=Zulip)](https://xi.zulipchat.com/#narrow/stream/147921-general/topic/Android.20Tracing)
+[![GitHub Actions CI status.](https://img.shields.io/github/actions/workflow/status/linebender/android_trace/ci.yml?logo=github&label=CI)](https://github.com/linebender/android_trace/actions)
+[![Dependency staleness status.](https://deps.rs/crate/tracing_android_trace/latest/status.svg)](https://deps.rs/crate/tracing_android_trace)
 
 </div>
 
@@ -32,7 +33,7 @@ This limitation is due to the underlying Android platform APIs.
 <img src="https://github.com/linebender/android_trace/assets/36049421/a7f03b74-d690-42be-91b5-326fbb698a03" alt="Screenshot showing a thread timeline including spans of a single thread.">
 <figcaption>
 
-Tracing spans for [Vello](https://github.com/linebender/vello) shown in Android GPU Inspector
+Tracing spans for [tracing_android_trace](https://github.com/linebender/tracing_android_trace) shown in Android GPU Inspector
 </figcaption>
 </figure>
 

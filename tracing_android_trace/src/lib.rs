@@ -1,26 +1,21 @@
 // Copyright 2024 the Android Trace Authors
 // SPDX-License-Identifier: Apache-2.0 OR MIT
 
-#![doc = concat!(
-// TODO: Is this a new pattern?
-"[`tracing`]: tracing
-[tracing_subscriber::filter]: tracing_subscriber::filter
-[`tracing_subscriber`]: tracing_subscriber
-[`tracing_subscriber::Layer`]: tracing_subscriber::Layer
-[`AndroidTraceLayer`]: AndroidTraceLayer
-[`AndroidTraceAsyncLayer`]: AndroidTraceAsyncLayer
-[`android_trace`]: android_trace
-
-
-<style>
-.rustdoc-hidden { display: none; }
-</style>
-
-<!-- Hide the header section of the README when using rustdoc -->
-<div style=\"display:none\">
-",
-    include_str!("../README.md"),
-)]
+//! [`tracing`]: tracing
+//! [tracing_subscriber::filter]: tracing_subscriber::filter
+//! [`tracing_subscriber`]: tracing_subscriber
+//! [`tracing_subscriber::Layer`]: tracing_subscriber::Layer
+//! [`AndroidTraceLayer`]: AndroidTraceLayer
+//! [`AndroidTraceAsyncLayer`]: AndroidTraceAsyncLayer
+//! [`android_trace`]: android_trace
+//!
+//! <style>
+//! .rustdoc-hidden { display: none; }
+//! </style>
+//!
+// Hide the header section of the README when using rustdoc
+//! <div style=\"display:none\">
+#![doc = include_str!("../README.md")]
 #![forbid(unsafe_code)]
 
 #[cfg(not(target_os = "android"))]
