@@ -164,5 +164,5 @@ at your option.
 [tracing_subscriber::filter]: https://docs.rs/tracing-subscriber/latest/tracing_subscriber/filter/index.html
 [`tracing_subscriber`]: https://docs.rs/tracing-subscriber/latest/tracing_subscriber
 [`tracing_subscriber::Layer`]: https://docs.rs/tracing-subscriber/latest/tracing_subscriber/layer/trait.Layer.html
-[`AndroidTraceLayer`]: https://docs.rs/tracing_android_trace/0.1.0/tracing_android_trace/sync_layer/struct.AndroidTraceLayer.html
-[`AndroidTraceAsyncLayer`]: https://docs.rs/tracing_android_trace/0.1.0/tracing_android_trace/async_layer/struct.AndroidTraceAsyncLayer.html
+[`AndroidTraceLayer`]: https://docs.rs/tracing_android_trace/latest/tracing_android_trace/sync_layer/struct.AndroidTraceLayer.html
+[`AndroidTraceAsyncLayer`]: https://docs.rs/tracing_android_trace/latest/tracing_android_trace/async_layer/struct.AndroidTraceAsyncLayer.html
