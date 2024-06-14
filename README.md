@@ -4,7 +4,7 @@
 
 **Support for Android [NDK Tracing][] in Rust**
 
-[![Linebender Zulip](https://img.shields.io/badge/Linebender-%23general%20%3E%20Android%20Tracing-orange?logo=Zulip)](https://xi.zulipchat.com/#narrow/stream/197075-gpu)
+[![Linebender Zulip](https://img.shields.io/badge/Linebender-%23general%20%3E%20Android%20Tracing-blue?logo=Zulip)](https://xi.zulipchat.com/#narrow/stream/197075-gpu)
 [![MIT/Apache 2.0](https://img.shields.io/badge/license-MIT%2FApache-blue.svg)](#license)
 [![Build status](https://github.com/linebender/android_trace/workflows/CI/badge.svg)](https://github.com/linebender/android_trace/actions)
 [![dependency status](https://deps.rs/repo/github/linebender/android_trace/status.svg)](https://deps.rs/repo/github/linebender/android_trace)
@@ -30,16 +30,16 @@ Tracing spans for [Vello](https://github.com/linebender/vello) shown in Android 
 Tracing Android Trace provides several [`tracing_subscriber::Layer`][]s for Android NDK Tracing, using `ATrace_beginSection` and `ATrace_endSection`.
 This allows viewing spans created using the [`tracing`][] macros in [Android GPU Inspector](https://gpuinspector.dev/).
 
-[![Crates.io](https://img.shields.io/crates/v/tracing_android_trace.svg)](https://crates.io/crates/tracing_android_trace)
-[![Docs](https://docs.rs/tracing_android_trace/badge.svg)](https://docs.rs/tracing_android_trace)
+[![Latest published version.](https://img.shields.io/crates/v/tracing_android_trace.svg)](https://crates.io/crates/tracing_android_trace)
+[![Documentation build status.](https://img.shields.io/docsrs/tracing_android_trace.svg)](https://docs.rs/tracing_android_trace)
+[![Dependency staleness status.](https://deps.rs/crate/tracing_android_trace/latest/status.svg)](https://deps.rs/crate/tracing_android_trace)
 [![tracing-subscriber version](https://img.shields.io/badge/tracing--subscriber-v0.3.18-a674e5.svg)](https://crates.io/crates/tracing-subscriber)
-[![dependency status](https://deps.rs/crate/tracing_android_trace/latest/status.svg)](https://deps.rs/crate/tracing_android_trace)
 
 ## Android Trace [android_trace](./android_trace)
 
-[![Crates.io](https://img.shields.io/crates/v/android_trace.svg)](https://crates.io/crates/android_trace)
-[![Docs](https://docs.rs/android_trace/badge.svg)](https://docs.rs/android_trace)
-[![dependency status](https://deps.rs/crate/android_trace/latest/status.svg)](https://deps.rs/crate/android_trace)
+[![Latest published version.](https://img.shields.io/crates/v/android_trace.svg)](https://crates.io/crates/android_trace)
+[![Documentation build status.](https://img.shields.io/docsrs/android_trace.svg)](https://docs.rs/android_trace)
+[![Dependency staleness status.](https://deps.rs/crate/android_trace/latest/status.svg)](https://deps.rs/crate/android_trace)
 
 Android Trace provides access to the Android NDK Tracing methods, such as `ATrace_beginSection` and `ATrace_endSection`.
 
