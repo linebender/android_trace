@@ -29,6 +29,8 @@ a sibling to this file's parent folder-->
 See [tracing_android_trace](https://crates.io/crates/tracing_android_trace)
 for an integration of this with [`tracing`](https://docs.rs/tracing/latest/tracing/).
 
+Significant changes are documented in [the changelog][].
+
 ## Quickstart
 
 Add a dependency on Android Trace:
@@ -120,6 +122,7 @@ Licensed under either of
 at your option.
 </div>
 
+[the changelog]: https://github.com/linebender/android_trace/blob/main/CHANGELOG.md
 [rust code of conduct]: https://www.rust-lang.org/policies/code-of-conduct
 [LICENSE-APACHE]: LICENSE-APACHE
 [LICENSE-MIT]: LICENSE-MIT

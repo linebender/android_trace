@@ -11,15 +11,21 @@ rust-version = "1.77"
 repository = "https://github.com/linebender/android_trace"
 edition = "2021"
 
+# Android Trace version, also used by other packages which want to mimic Android Trace's version.
+# Right now those packages include android_trace and tracing_android_trace.
+#
+# NOTE: When bumping this, remember to also bump the aforementioned other packages'
+#       version in the dependencies section at the bottom of this file.
+version = "0.1.1"
+
+[workspace.lints]
+rust.unreachable_pub = "warn"
+rust.unsafe_op_in_unsafe_fn = "warn"
+rust.missing_debug_implementations = "warn"
+rust.missing_docs = "warn"
+
+clippy.doc_markdown = "warn"
+clippy.semicolon_if_nothing_returned = "warn"
+
 [workspace.dependencies]
-android_trace = { path = "./android_trace", version = "0.1.0", default-features = false }
-
-[workspace.lints.rust]
-unreachable_pub = "warn"
-unsafe_op_in_unsafe_fn = "warn"
-missing_debug_implementations = "warn"
-missing_docs = "warn"
-
-[workspace.lints.clippy]
-doc_markdown = "warn"
-semicolon_if_nothing_returned = "warn"
+android_trace = { path = "./android_trace", version = "0.1.1", default-features = false }

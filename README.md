@@ -25,6 +25,8 @@ Tracing spans for [Vello](https://github.com/linebender/vello) shown in Android 
 </figcaption>
 </figure>
 
+Significant changes are documented in [the changelog].
+
 ## Tracing Android Trace [tracing_android_trace](./tracing_android_trace)
 
 Tracing Android Trace provides several [`tracing_subscriber::Layer`][]s for Android NDK Tracing, using `ATrace_beginSection` and `ATrace_endSection`.
@@ -72,3 +74,4 @@ dual licensed as above, without any additional terms or conditions.
 [rust code of conduct]: https://www.rust-lang.org/policies/code-of-conduct
 [NDK Tracing]: https://developer.android.com/ndk/reference/group/tracing
 [`tracing_subscriber::Layer`]: https://docs.rs/tracing-subscriber/latest/tracing_subscriber/layer/trait.Layer.html
+[the changelog]: CHANGELOG.md

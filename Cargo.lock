@@ -4,7 +4,7 @@ version = 3
 
 [[package]]
 name = "android_trace"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "libc",
  "static_assertions",
@@ -146,7 +146,7 @@ dependencies = [
 
 [[package]]
 name = "tracing_android_trace"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "android_trace",
  "smallvec",
