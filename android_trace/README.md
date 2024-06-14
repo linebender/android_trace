@@ -128,5 +128,5 @@ at your option.
 [LICENSE-MIT]: LICENSE-MIT
 
 <!-- Replacement intra-doc links for GitHub and crates.io. See https://linebender.org/blog/doc-include -->
-[AndroidTrace]: https://docs.rs/android_trace/0.1.0/android_trace/struct.AndroidTrace.html
+[AndroidTrace]: https://docs.rs/android_trace/latest/android_trace/struct.AndroidTrace.html
 [dlsym]: https://man7.org/linux/man-pages/man3/dlsym.3.html
