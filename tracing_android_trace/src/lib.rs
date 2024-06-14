@@ -9,15 +9,13 @@
 //! [`AndroidTraceLayer`]: AndroidTraceLayer
 //! [`AndroidTraceAsyncLayer`]: AndroidTraceAsyncLayer
 //! [`android_trace`]: android_trace
-// File links: not supported by rustdoc
+// File links are not supported by rustdoc
 //! [LICENSE-APACHE]: https://github.com/linebender/android_trace/blob/main/LICENSE-APACHE
 //! [LICENSE-MIT]: https://github.com/linebender/android_trace/blob/main/LICENSE-MIT
+//!
 //! <style>
 //! .rustdoc-hidden { display: none; }
 //! </style>
-//!
-// Hide the header section of the README when using rustdoc
-//! <div style=\"display:none\">
 #![doc = include_str!("../README.md")]
 #![forbid(unsafe_code)]
 
