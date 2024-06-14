@@ -3,7 +3,6 @@
 # Android Trace
 
 </div>
-<!-- Close the <div> opened in lib.rs for rustdoc, which hides the above title -->
 
 <div align="center">
 
