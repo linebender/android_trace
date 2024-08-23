@@ -41,9 +41,8 @@ Significant changes are documented in [the changelog][].
 
 Add a dependency on Tracing Android Trace (and on [`tracing_subscriber`][]).
 
-```toml
-[target.'cfg(target_os = "android")'.dependencies]
-tracing_android_trace = "0.1.0"
+```sh
+cargo add tracing_android_trace --target 'cfg(target_os = "android")'
 ```
 
 You can then add an Android Tracing layer to the registry subscriber:
