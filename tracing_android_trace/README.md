@@ -39,7 +39,7 @@ Significant changes are documented in [the changelog][].
 
 ## Quickstart
 
-Add a dependency on Android Trace (and on [`tracing_subscriber`][]).
+Add a dependency on Tracing Android Trace (and on [`tracing_subscriber`][]).
 
 ```toml
 [target.'cfg(target_os = "android")'.dependencies]
