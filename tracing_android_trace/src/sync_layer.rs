@@ -103,8 +103,7 @@ struct ATraceExtension {
 
 impl<S> tracing_subscriber::Layer<S> for AndroidTraceLayer
 where
-    S: tracing::Subscriber + for<'a> LookupSpan<'a> + Debug,
-    for<'a> <S as LookupSpan<'a>>::Data: Debug,
+    S: tracing::Subscriber + for<'a> LookupSpan<'a>,
 {
     fn on_new_span(
         &self,
