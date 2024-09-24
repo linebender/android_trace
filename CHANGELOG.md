@@ -19,6 +19,8 @@ You can find its changes [documented below](#011---2024-06-14).
 
 ### Fixed
 
+- Remove never used Debug bounds ([#17][] by [@DJMcNab])
+
 ## [0.1.1] - 2024-06-14
 
 ### Added
@@ -41,6 +43,7 @@ You can find its changes [documented below](#011---2024-06-14).
 [#11]: https://github.com/linebender/android_trace/pull/11
 [#12]: https://github.com/linebender/android_trace/pull/12
 [#13]: https://github.com/linebender/android_trace/pull/13
+[#17]: https://github.com/linebender/android_trace/pull/17
 
 [Unreleased]: https://github.com/linebender/android_trace/compare/v0.1.1...HEAD
 [0.1.1]: https://github.com/linebender/android_trace/compare/v0.1.0...v0.1.1
