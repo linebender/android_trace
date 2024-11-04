@@ -94,11 +94,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: restore cache
-        uses: Swatinem/rust-cache@v2
-        with:
-          save-if: ${{ github.event_name != 'merge_group' }}
-
       - name: install stable toolchain
         uses: dtolnay/rust-toolchain@master
         with:
@@ -110,6 +105,12 @@ jobs:
         uses: taiki-e/install-action@v2
         with:
           tool: cargo-hack
+
+      - name: restore cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          save-if: ${{ github.event_name != 'merge_group' }}
+          key: ${{ matrix.android_target }}
 
       - name: cargo clippy
         run: cargo hack clippy --workspace --locked --target ${{ matrix.android_target }} --optional-deps --each-feature -- -D warnings
@@ -127,15 +128,16 @@ jobs:
   #   steps:
   #     - uses: actions/checkout@v4
   #
-  #     - name: restore cache
-  #       uses: Swatinem/rust-cache@v2
-  #       with:
-  #         save-if: ${{ github.event_name != 'merge_group' }}
-  #
   #     - name: install stable toolchain
   #       uses: dtolnay/rust-toolchain@master
   #       with:
   #         toolchain: ${{ env.RUST_STABLE_VER }}
+  #
+  #     - name: restore cache
+  #       uses: Swatinem/rust-cache@v2
+  #       with:
+  #         save-if: ${{ github.event_name != 'merge_group' }}
+  #         key: ${{ matrix.android_target }}
   #
   #     - name: cargo test
   #       run: cargo test --workspace --locked --target ${{ matrix.android_target }} --all-features
@@ -145,11 +147,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: restore cache
-        uses: Swatinem/rust-cache@v2
-        with:
-          save-if: ${{ github.event_name != 'merge_group' }}
 
       - name: install stable toolchain
         uses: dtolnay/rust-toolchain@master
@@ -163,6 +160,11 @@ jobs:
         with:
           tool: cargo-hack
 
+      - name: restore cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          save-if: ${{ github.event_name != 'merge_group' }}
+
       - name: cargo check
         run: cargo hack check ${{ env.RUST_MIN_VER_PKGS }} --locked --target aarch64-linux-android --optional-deps --each-feature
 
@@ -172,15 +174,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: restore cache
-        uses: Swatinem/rust-cache@v2
-        with:
-          save-if: ${{ github.event_name != 'merge_group' }}
-
       - name: install nightly toolchain
         uses: dtolnay/rust-toolchain@nightly
         with:
           targets: aarch64-linux-android
+
+      - name: restore cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          save-if: ${{ github.event_name != 'merge_group' }}
 
       # We test documentation using nightly to match docs.rs. This prevents potential breakages
       - name: cargo doc
@@ -192,17 +194,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: restore cache
-        uses: Swatinem/rust-cache@v2
-        with:
-          save-if: ${{ github.event_name != 'merge_group' }}
-
       - name: install nightly toolchain
         uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ env.RUST_DOCS_COMPILE_VER }}
           # We expect our docs to be arch-independent
           targets: aarch64-linux-android
+
+      - name: restore cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          save-if: ${{ github.event_name != 'merge_group' }}
 
       # We test that the code examples in our docs compile, which requires nightly.
       # See the docs on RUST_DOCS_COMPILE_VER, above.
