@@ -11,8 +11,8 @@ env:
   # This should be the same version of Rust which the above stable was branched from.
   # To get the correct date, use `cargo --version`. E.g for 1.77, this prints
   # cargo 1.77.0 (3fe68eabf 2024-02-29)
-  # So the date used when we depended on 1.77 was 2024-02-29
-  RUST_DOCS_COMPILE_VER: "nightly-2024-02-29"
+  # So the date used when we depended on 1.77 was 2024-02-29.
+  RUST_DOCS_COMPILE_VER: "nightly-2024-06-03"
   # The purpose of checking with the minimum supported Rust toolchain is to detect its staleness.
   # If the compilation fails, then the version specified here needs to be bumped up to reality.
   # Be sure to also update the rust-version property in the workspace Cargo.toml file,
@@ -43,16 +43,26 @@ env:
 #
 # The MSRV jobs run only cargo check because different clippy versions can disagree on goals and
 # running tests introduces dev dependencies which may require a higher MSRV than the bare package.
+#
+# We don't save caches in the merge-group cases, because those caches will never be re-used (apart
+# from the very rare cases where there are multiple PRs in the merge queue).
+# This is because GitHub doesn't share caches between merge queues and the main branch.
 
 name: CI
 
 on:
   pull_request:
   merge_group:
+  # We run on push, even though the commit is the same as when we ran in merge_group.
+  # This allows the cache to be primed.
+  # See https://github.com/orgs/community/discussions/66430
+  push:
+    branches:
+      - main
 
 jobs:
   fmt:
-    name: cargo fmt
+    name: formatting
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -84,11 +94,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Our dependency tree is small enough (only libc)
-      # that caching is likely to be worse
-      # - name: restore cache
-      #   uses: Swatinem/rust-cache@v2
-
       - name: install stable toolchain
         uses: dtolnay/rust-toolchain@master
         with:
@@ -101,11 +106,17 @@ jobs:
         with:
           tool: cargo-hack
 
+      - name: restore cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          save-if: ${{ github.event_name != 'merge_group' }}
+          key: ${{ matrix.android_target }}
+
       - name: cargo clippy
-        run: cargo hack clippy --workspace --locked --target ${{ matrix.android_target }} --each-feature --optional-deps -- -D warnings
+        run: cargo hack clippy --workspace --locked --target ${{ matrix.android_target }} --optional-deps --each-feature -- -D warnings
   
       - name: cargo clippy (auxiliary)
-        run: cargo hack clippy --workspace --locked --target ${{ matrix.android_target }} --each-feature --optional-deps --tests --benches --examples -- -D warnings
+        run: cargo hack clippy --workspace --locked --target ${{ matrix.android_target }} --optional-deps --each-feature --tests --benches --examples -- -D warnings
 
   # TODO: Find a way to run tests
   # test-stable:
@@ -117,13 +128,16 @@ jobs:
   #   steps:
   #     - uses: actions/checkout@v4
   #
-  #     - name: restore cache
-  #       uses: Swatinem/rust-cache@v2
-  #
   #     - name: install stable toolchain
   #       uses: dtolnay/rust-toolchain@master
   #       with:
   #         toolchain: ${{ env.RUST_STABLE_VER }}
+  #
+  #     - name: restore cache
+  #       uses: Swatinem/rust-cache@v2
+  #       with:
+  #         save-if: ${{ github.event_name != 'merge_group' }}
+  #         key: ${{ matrix.android_target }}
   #
   #     - name: cargo test
   #       run: cargo test --workspace --locked --target ${{ matrix.android_target }} --all-features
@@ -133,11 +147,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      # Our dependency tree is small enough (only libc)
-      # that caching is likely to be worse
-      # - name: restore cache
-      #   uses: Swatinem/rust-cache@v2
 
       - name: install stable toolchain
         uses: dtolnay/rust-toolchain@master
@@ -151,8 +160,13 @@ jobs:
         with:
           tool: cargo-hack
 
+      - name: restore cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          save-if: ${{ github.event_name != 'merge_group' }}
+
       - name: cargo check
-        run: cargo hack check ${{ env.RUST_MIN_VER_PKGS }} --locked --target aarch64-linux-android --each-feature --optional-deps
+        run: cargo hack check ${{ env.RUST_MIN_VER_PKGS }} --locked --target aarch64-linux-android --optional-deps --each-feature
 
   doc:
     name: cargo doc
@@ -160,15 +174,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Our dependency tree is small enough (only libc)
-      # that caching is likely to be worse
-      # - name: restore cache
-      #   uses: Swatinem/rust-cache@v2
-
       - name: install nightly toolchain
         uses: dtolnay/rust-toolchain@nightly
         with:
           targets: aarch64-linux-android
+
+      - name: restore cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          save-if: ${{ github.event_name != 'merge_group' }}
 
       # We test documentation using nightly to match docs.rs. This prevents potential breakages
       - name: cargo doc
@@ -180,11 +194,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Our dependency tree is small enough (only libc)
-      # that caching is likely to be worse
-      # - name: restore cache
-      #   uses: Swatinem/rust-cache@v2
-
       - name: install nightly toolchain
         uses: dtolnay/rust-toolchain@master
         with:
@@ -192,10 +201,24 @@ jobs:
           # We expect our docs to be arch-independent
           targets: aarch64-linux-android
 
-      # We test that the code examples in our docs compile, which requires nightly
-      # See the docs on RUST_DOCS_COMPILE_VER, above
-      # Even though there could be *could* be doctests on conditionally compiled out private items
+      - name: restore cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          save-if: ${{ github.event_name != 'merge_group' }}
+
+      # We test that the code examples in our docs compile, which requires nightly.
+      # See the docs on RUST_DOCS_COMPILE_VER, above.
+      # Even though there could be doctests on conditionally compiled out private items,
       # we don't expect those to exist, so we don't use cargo hack.
-      # It is a shame that we can't detect those, though
+      # It is a shame that we can't detect those, though.
       - name: cargo test --doc
         run: cargo test --doc --workspace --locked --target aarch64-linux-android --all-features -Zdoctest-xcompile
+
+  # If this fails, consider changing your text or adding something to .typos.toml
+  typos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: check typos
+        uses: crate-ci/typos@v1.26.0
