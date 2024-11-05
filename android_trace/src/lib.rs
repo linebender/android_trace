@@ -12,6 +12,7 @@
 //! .rustdoc-hidden { display: none; }
 //! </style>
 #![doc =  include_str!("../README.md")]
+#![cfg_attr(docsrs, feature(doc_auto_cfg))]
 
 #[cfg(not(feature = "api_level_23"))]
 use ffi::ATraceAPILevel23Methods;
