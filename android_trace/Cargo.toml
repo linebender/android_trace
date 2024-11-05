@@ -11,6 +11,14 @@ rust-version.workspace = true
 repository.workspace = true
 edition.workspace = true
 
+[package.metadata.docs.rs]
+all-features = true
+# There are no platform specific docs.
+# In theory, we could add the other Android targets here.
+# However, the API is identical across all of them, so there's no advantage.
+default-target = "aarch64-linux-android"
+targets = []
+
 [lints]
 workspace = true
 
@@ -26,9 +34,3 @@ api_level_29 = ["api_level_23"]
 
 [dev-dependencies]
 static_assertions = "1.1.0"
-
-[package.metadata.docs.rs]
-default-target = "aarch64-linux-android"
-# In theory, we could add the other Android targets here. 
-# However, the API is identical across any of them, so there's no advantage
-targets = []
