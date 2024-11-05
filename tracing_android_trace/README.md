@@ -39,11 +39,10 @@ Significant changes are documented in [the changelog][].
 
 ## Quickstart
 
-Add a dependency on Android Trace (and on [`tracing_subscriber`][]).
+Add a dependency on Tracing Android Trace (and on [`tracing_subscriber`][]).
 
-```toml
-[target.'cfg(target_os = "android")'.dependencies]
-android_trace = "0.1.0"
+```sh
+cargo add tracing_android_trace --target 'cfg(target_os = "android")'
 ```
 
 You can then add an Android Tracing layer to the registry subscriber:
@@ -51,7 +50,7 @@ You can then add an Android Tracing layer to the registry subscriber:
 ```rust,no_run
 use tracing_subscriber::prelude::*;
 
-fn main(){ 
+fn main() {
   tracing_subscriber::registry()
     .with(tracing_android_trace::AndroidTraceLayer::new())
     .try_init()

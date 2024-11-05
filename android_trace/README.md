@@ -35,9 +35,8 @@ Significant changes are documented in [the changelog][].
 
 Add a dependency on Android Trace:
 
-```toml
-[target.'cfg(target_os = "android")'.dependencies]
-android_trace = "0.1.0"
+```sh
+cargo add android_trace --target 'cfg(target_os = "android")'
 ```
 
 The main entry point to the library is [AndroidTrace][], which stores function pointers to each available NDK function:
