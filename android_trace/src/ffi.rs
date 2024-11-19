@@ -4,7 +4,7 @@
 #[cfg(not(all(feature = "api_level_23", feature = "api_level_29")))]
 use core::{ffi::CStr, mem};
 
-use libc::{c_char, c_void};
+use libc::c_char;
 
 /// # Safety
 ///
@@ -17,17 +17,17 @@ use libc::{c_char, c_void};
     unused_qualifications,
     // reason = "These qualifications are used, because our MSRV is lower than 1.81"
 )]
-unsafe fn transmute_if_not_null<F>(func: *mut c_void) -> Option<F> {
+unsafe fn transmute_if_not_null<F>(func: *mut libc::c_void) -> Option<F> {
     assert_eq!(
         mem::size_of::<F>(),
-        mem::size_of::<*mut c_void>(),
+        mem::size_of::<*mut libc::c_void>(),
         "transmute_copy is used because this function is generic"
     );
     if func.is_null() {
         return None;
     }
     // Safety: The preconditions are guaranteed by the caller.
-    Some(unsafe { mem::transmute_copy::<*mut c_void, F>(&func) })
+    Some(unsafe { mem::transmute_copy::<*mut libc::c_void, F>(&func) })
 }
 
 #[link(name = "android", kind = "dylib")]
