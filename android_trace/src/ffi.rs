@@ -12,7 +12,9 @@ use core::ffi::c_char;
 /// # Safety
 ///
 /// `func` must have been produced from a call to `dlsym` which is
-/// reasonably expected to have the right type
+/// reasonably expected to have the right type.
+///
+/// All the preconditions from [`transmute_copy`](core::mem::transmute_copy) apply.
 #[cfg(not(all(feature = "api_level_23", feature = "api_level_29")))]
 #[allow(
     unused_qualifications,
@@ -27,7 +29,7 @@ unsafe fn transmute_if_not_null<F>(func: *mut c_void) -> Option<F> {
     if func.is_null() {
         return None;
     }
-    // Safety:
+    // Safety: The preconditions are guaranteed by the caller.
     Some(unsafe { mem::transmute_copy::<*mut c_void, F>(&func) })
 }
 
