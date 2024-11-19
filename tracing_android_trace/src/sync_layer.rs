@@ -82,7 +82,7 @@ impl AndroidTraceLayer {
     ///
     /// Note that this takes ownership because `AndroidTrace` has a trivial `Clone`
     pub fn with_trace(trace: AndroidTrace) -> Self {
-        AndroidTraceLayer {
+        Self {
             trace,
             fmt_fields: DefaultFields::new(),
             current_actual_stack: ThreadLocal::new(),
@@ -101,6 +101,10 @@ struct ATraceExtension {
     name: CString,
 }
 
+#[allow(
+    clippy::print_stderr,
+    // reason = "tracing::warn could lead to an infinite loop inside the tracing layer"
+)]
 impl<S> tracing_subscriber::Layer<S> for AndroidTraceLayer
 where
     S: tracing::Subscriber + for<'a> LookupSpan<'a>,
@@ -108,7 +112,7 @@ where
     fn on_new_span(
         &self,
         attrs: &span::Attributes<'_>,
-        id: &span::Id,
+        id: &Id,
         ctx: tracing_subscriber::layer::Context<'_, S>,
     ) {
         if self.trace.is_enabled().unwrap_or(false) {
@@ -143,7 +147,7 @@ where
 
     fn on_record(
         &self,
-        _span: &span::Id,
+        _span: &Id,
         _values: &span::Record<'_>,
         _ctx: tracing_subscriber::layer::Context<'_, S>,
     ) {
@@ -153,8 +157,8 @@ where
 
     fn on_follows_from(
         &self,
-        _span: &span::Id,
-        _follows: &span::Id,
+        _span: &Id,
+        _follows: &Id,
         _ctx: tracing_subscriber::layer::Context<'_, S>,
     ) {
         // Not meaningfully implementable
@@ -164,7 +168,7 @@ where
         // TODO: Does it make sense to do anything here?
     }
 
-    fn on_enter(&self, id: &span::Id, ctx: tracing_subscriber::layer::Context<'_, S>) {
+    fn on_enter(&self, id: &Id, ctx: tracing_subscriber::layer::Context<'_, S>) {
         let span = ctx.span(id).expect("Span not found, this is a bug");
         let extensions = span.extensions();
         // The extension is optional in case tracing is disabled
@@ -175,17 +179,17 @@ where
         }
     }
 
-    fn on_exit(&self, id: &span::Id, ctx: tracing_subscriber::layer::Context<'_, S>) {
+    fn on_exit(&self, exiting_id: &Id, ctx: tracing_subscriber::layer::Context<'_, S>) {
         // For some reason, the `S`'s `exit` method is called *before* on_exit, so the span which is exiting is
         // no longer in the current stack
         // Because of this, to find the place it *used* to be, we find the item which was the parent of the current item
         // in the stack
-        let this_span = ctx.span(id).expect("Span not found, this is a bug");
-        let Some(stack) = self.current_actual_stack.get() else {
+        let this_span = ctx.span(exiting_id).expect("Span not found, this is a bug");
+        let Some(data) = self.current_actual_stack.get() else {
             // No spans had the extension, so nothing to do
             return;
         };
-        let mut data = stack.borrow_mut();
+        let mut data = data.borrow_mut();
         let stack = &mut data.stack;
         if stack.is_empty() {
             // This span should have been already closed in the case where a previous span was not
@@ -201,8 +205,11 @@ where
             return;
         }
         let last = stack.last().unwrap().as_ref();
-        debug_assert!(last.is_some());
-        if last == Some(id) {
+        debug_assert!(
+            last.is_some(),
+            "We're exiting a span, so we should have entered one previously"
+        );
+        if last == Some(exiting_id) {
             stack.pop();
             // Fast path, if we were at the top of the stack (i.e. the current top is our parent)
             // Matches the call in `on_enter`
@@ -210,7 +217,10 @@ where
             #[cfg(debug_assertions)]
             {
                 let extensions = this_span.extensions();
-                debug_assert!(extensions.get::<ATraceExtension>().is_some());
+                debug_assert!(
+                    extensions.get::<ATraceExtension>().is_some(),
+                    "We believe we handled this span's creation, so it should have the extension"
+                );
             }
             // Clear all the dangling items on the stack
             while let Some(None) = stack.last() {
@@ -228,7 +238,7 @@ where
             let mut index_of_this = None;
             for (idx, item) in stack.iter_mut().enumerate().rev() {
                 self.trace.end_section();
-                if item.as_ref() == Some(id) {
+                if item.as_ref() == Some(exiting_id) {
                     index_of_this = Some(idx);
                     *item = None;
                     break;
@@ -248,7 +258,10 @@ where
                 stack.clear();
                 data.extra_unclosed_values = extra_values;
                 let extensions = this_span.extensions();
-                debug_assert!(extensions.get::<ATraceExtension>().is_none());
+                debug_assert!(
+                    extensions.get::<ATraceExtension>().is_none(),
+                    "We don't close a span as we believe it wasn't entered, but it was entered"
+                );
                 return;
             };
             for id in stack[index_of_this..].iter() {

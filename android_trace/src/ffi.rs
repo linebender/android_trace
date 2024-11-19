@@ -14,8 +14,16 @@ use core::ffi::c_char;
 /// `func` must have been produced from a call to `dlsym` which is
 /// reasonably expected to have the right type
 #[cfg(not(all(feature = "api_level_23", feature = "api_level_29")))]
+#[allow(
+    unused_qualifications,
+    // reason = "These qualifications are used, because our MSRV is lower than 1.81"
+)]
 unsafe fn transmute_if_not_null<F>(func: *mut c_void) -> Option<F> {
-    assert_eq!(mem::size_of::<F>(), mem::size_of::<*mut c_void>());
+    assert_eq!(
+        mem::size_of::<F>(),
+        mem::size_of::<*mut c_void>(),
+        "transmute_copy is used because this function is generic"
+    );
     if func.is_null() {
         return None;
     }

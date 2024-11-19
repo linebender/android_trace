@@ -13,6 +13,13 @@
 //! </style>
 #![doc =  include_str!("../README.md")]
 #![cfg_attr(docsrs, feature(doc_auto_cfg))]
+#![expect(unsafe_code)]
+// LINEBENDER LINT SET - v1
+// See https://linebender.org/wiki/canonical-lints/
+// These lints aren't included in Cargo.toml because they
+// shouldn't apply to examples and tests
+#![warn(unused_crate_dependencies)]
+#![warn(clippy::print_stdout, clippy::print_stderr)]
 
 #[cfg(not(feature = "api_level_23"))]
 use ffi::ATraceAPILevel23Methods;

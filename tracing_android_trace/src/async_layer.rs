@@ -45,7 +45,7 @@ impl AndroidTraceAsyncLayer {
     /// Note that this takes ownership because `AndroidTrace` has a trivial `Clone`
     pub fn with_trace(trace: AndroidTrace) -> Self {
         let could_use_api_level_29 = trace.could_use_api_level_29();
-        AndroidTraceAsyncLayer {
+        Self {
             trace,
             fmt_fields: DefaultFields::new(),
             could_use_api_level_29,
@@ -65,6 +65,10 @@ pub(crate) struct ATraceExtensionAsync {
     cookie: i32,
 }
 
+#[allow(
+    clippy::print_stderr,
+    // reason = "tracing::warn could lead to an infinite loop inside the tracing layer"
+)]
 impl<S> tracing_subscriber::Layer<S> for AndroidTraceAsyncLayer
 where
     S: tracing::Subscriber + for<'a> LookupSpan<'a>,
@@ -88,11 +92,16 @@ where
                 let name = CString::new(name);
                 match name {
                     Ok(name) => {
-                        // We truncate on purpose here. The scenario where this breaks are rare
-                        let cookie = id.into_u64() as u32 as i32;
+                        #[allow(
+                            clippy::cast_possible_truncation,
+                            // reason = "The cookies have to be i32, but the available source is u64"
+                        )]
+                        let cookie = (id.into_u64() % u32::MAX as u64) as u32 as i32;
                         extensions
                             .insert::<ATraceExtensionAsync>(ATraceExtensionAsync { name, cookie });
                     }
+                    // This error printing style is based on the precedent of tracing_subscriber.
+                    // Using `tracing::warn` or similar could lead to an infinite loop.
                     Err(e) => eprintln!(
                         concat!(
                             "[tracing_android_trace] Unable to format the following ",
