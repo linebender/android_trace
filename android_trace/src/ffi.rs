@@ -2,12 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
 
 #[cfg(not(all(feature = "api_level_23", feature = "api_level_29")))]
-use core::{
-    ffi::{c_void, CStr},
-    mem,
-};
+use core::{ffi::CStr, mem};
 
-use core::ffi::c_char;
+use libc::{c_char, c_void};
 
 /// # Safety
 ///
