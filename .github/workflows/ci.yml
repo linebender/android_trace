@@ -12,7 +12,7 @@ env:
   # To get the correct date, use `cargo --version`. E.g for 1.77, this prints
   # cargo 1.77.0 (3fe68eabf 2024-02-29)
   # So the date used when we depended on 1.77 was 2024-02-29.
-  RUST_DOCS_COMPILE_VER: "nightly-2024-06-03"
+  RUST_DOCS_COMPILE_VER: "nightly-2024-08-21"
   # The purpose of checking with the minimum supported Rust toolchain is to detect its staleness.
   # If the compilation fails, then the version specified here needs to be bumped up to reality.
   # Be sure to also update the rust-version property in the workspace Cargo.toml file,
