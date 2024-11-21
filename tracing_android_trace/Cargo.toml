@@ -30,11 +30,8 @@ workspace = true
 tracing-subscriber = { version = "0.3.18", default-features = false, features = [
     "std",
     "fmt",
-    "smallvec",
 ] }
 tracing = "0.1.40"
-tracing-core = "0.1.32"
-smallvec = "1.13.1"
 thread_local = "1.1.8"
 
 [features]
@@ -44,9 +41,6 @@ default = ["api_level_23"]
 api_level_23 = ["android_trace/api_level_23"]
 # Assume that Android API level 29 is available, to avoid runtime symbol lookups entirely
 api_level_29 = ["android_trace/api_level_29"]
-
-[dev-dependencies]
-static_assertions = "1.1.0"
 
 [target.'cfg(target_os = "android")'.dependencies]
 # We only depend on android_trace on Android so that we can customise the

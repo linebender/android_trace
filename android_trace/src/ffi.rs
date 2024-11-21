@@ -2,25 +2,32 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
 
 #[cfg(not(all(feature = "api_level_23", feature = "api_level_29")))]
-use core::{
-    ffi::{c_void, CStr},
-    mem,
-};
+use core::{ffi::CStr, mem};
 
-use core::ffi::c_char;
+use libc::c_char;
 
 /// # Safety
 ///
 /// `func` must have been produced from a call to `dlsym` which is
-/// reasonably expected to have the right type
+/// reasonably expected to have the right type.
+///
+/// All the preconditions from [`transmute_copy`](core::mem::transmute_copy) apply.
 #[cfg(not(all(feature = "api_level_23", feature = "api_level_29")))]
-unsafe fn transmute_if_not_null<F>(func: *mut c_void) -> Option<F> {
-    assert_eq!(mem::size_of::<F>(), mem::size_of::<*mut c_void>());
+#[allow(
+    unused_qualifications,
+    // reason = "These qualifications are used, because our MSRV is lower than 1.81"
+)]
+unsafe fn transmute_if_not_null<F>(func: *mut libc::c_void) -> Option<F> {
+    assert_eq!(
+        mem::size_of::<F>(),
+        mem::size_of::<*mut libc::c_void>(),
+        "transmute_copy is used because this function is generic"
+    );
     if func.is_null() {
         return None;
     }
-    // Safety:
-    Some(unsafe { mem::transmute_copy::<*mut c_void, F>(&func) })
+    // Safety: The preconditions are guaranteed by the caller.
+    Some(unsafe { mem::transmute_copy::<*mut libc::c_void, F>(&func) })
 }
 
 #[link(name = "android", kind = "dylib")]

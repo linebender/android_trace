@@ -4,7 +4,7 @@ env:
   # come automatically. If the version specified here is no longer the latest stable version,
   # then please feel free to submit a PR that adjusts it along with the potential clippy fixes.
   # When updating this, also update RUST_DOCS_COMPILE_VER below to the same version
-  RUST_STABLE_VER: "1.79" # In quotes because otherwise (e.g.) 1.70 would be interpreted as 1.7
+  RUST_STABLE_VER: "1.82" # In quotes because otherwise (e.g.) 1.70 would be interpreted as 1.7
   # The version of rustc we use to test that doc examples compile.
   # This is required because we depend on the unstable `-Zdoctest-xcompile`.
   # See https://github.com/rust-lang/rust/issues/64245
@@ -12,7 +12,7 @@ env:
   # To get the correct date, use `cargo --version`. E.g for 1.77, this prints
   # cargo 1.77.0 (3fe68eabf 2024-02-29)
   # So the date used when we depended on 1.77 was 2024-02-29.
-  RUST_DOCS_COMPILE_VER: "nightly-2024-06-03"
+  RUST_DOCS_COMPILE_VER: "nightly-2024-10-15"
   # The purpose of checking with the minimum supported Rust toolchain is to detect its staleness.
   # If the compilation fails, then the version specified here needs to be bumped up to reality.
   # Be sure to also update the rust-version property in the workspace Cargo.toml file,
