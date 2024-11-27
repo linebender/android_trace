@@ -17,14 +17,15 @@
 //! .rustdoc-hidden { display: none; }
 //! </style>
 #![doc = include_str!("../README.md")]
-#![cfg_attr(docsrs, feature(doc_auto_cfg))]
-#![forbid(unsafe_code)]
-// LINEBENDER LINT SET - v1
+// LINEBENDER LINT SET - lib.rs - v1
 // See https://linebender.org/wiki/canonical-lints/
 // These lints aren't included in Cargo.toml because they
 // shouldn't apply to examples and tests
 #![warn(unused_crate_dependencies)]
 #![warn(clippy::print_stdout, clippy::print_stderr)]
+// END LINEBENDER LINT SET
+#![cfg_attr(docsrs, feature(doc_auto_cfg))]
+#![forbid(unsafe_code)]
 
 #[cfg(not(target_os = "android"))]
 compile_error!(
