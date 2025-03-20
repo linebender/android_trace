@@ -12,7 +12,7 @@
 [![Documentation build status.](https://img.shields.io/docsrs/android_trace.svg)](https://docs.rs/android_trace)
 [![Apache 2.0 or MIT license.](https://img.shields.io/badge/license-Apache--2.0_OR_MIT-blue.svg)](#license)
 \
-[![Linebender Zulip chat.](https://img.shields.io/badge/Linebender-%23general%20%3E%20Android%20Tracing-blue?logo=Zulip)](https://xi.zulipchat.com/#narrow/stream/147921-general/topic/Android.20Tracing)
+[![Linebender Zulip chat.](https://img.shields.io/badge/Linebender-%23general%20%3E%20Android%20Tracing-blue?logo=Zulip)](https://xi.zulipchat.com/#narrow/channel/147921-general/topic/Android.20Tracing/with/457019334)
 [![GitHub Actions CI status.](https://img.shields.io/github/actions/workflow/status/linebender/android_trace/ci.yml?logo=github&label=CI)](https://github.com/linebender/android_trace/actions)
 [![Dependency staleness status.](https://deps.rs/crate/android_trace/latest/status.svg)](https://deps.rs/crate/android_trace)
 
@@ -104,7 +104,7 @@ cargo update -p package_name --precise 0.1.1
 ## Community
 
 Discussion of Android Trace development happens in the [Linebender Zulip](https://xi.zulipchat.com/), specifically in
-[#general > Android Tracing](https://xi.zulipchat.com/#narrow/stream/147921-general/topic/Android.20Tracing).
+[#general > Android Tracing](https://xi.zulipchat.com/#narrow/channel/147921-general/topic/Android.20Tracing/with/457019334).
 All public content can be read without logging in.
 
 Contributions are welcome by pull request. The [Rust code of conduct][] applies.

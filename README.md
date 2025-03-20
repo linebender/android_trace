@@ -4,7 +4,7 @@
 
 **Support for Android [NDK Tracing][] in Rust**
 
-[![Linebender Zulip](https://img.shields.io/badge/Linebender-%23general%20%3E%20Android%20Tracing-blue?logo=Zulip)](https://xi.zulipchat.com/#narrow/stream/197075-gpu)
+[![Linebender Zulip](https://img.shields.io/badge/Linebender-%23general%20%3E%20Android%20Tracing-blue?logo=Zulip)](https://xi.zulipchat.com/#narrow/channel/147921-general/topic/Android.20Tracing/with/457019334)
 [![MIT/Apache 2.0](https://img.shields.io/badge/license-MIT%2FApache-blue.svg)](#license)
 [![Build status](https://github.com/linebender/android_trace/workflows/CI/badge.svg)](https://github.com/linebender/android_trace/actions)
 [![Dependency staleness status.](https://deps.rs/repo/github/linebender/android_trace/status.svg)](https://deps.rs/repo/github/linebender/android_trace)
@@ -48,7 +48,7 @@ Android Trace provides access to the Android NDK Tracing methods, such as `ATrac
 ## Community
 
 Discussion of Android Trace development happens in the [Linebender Zulip](https://xi.zulipchat.com/), specifically in
-[#general > Android Tracing](https://xi.zulipchat.com/#narrow/stream/147921-general/topic/Android.20Tracing).
+[#general > Android Tracing](https://xi.zulipchat.com/#narrow/channel/147921-general/topic/Android.20Tracing/with/457019334).
 All public content can be read without logging in.
 
 Contributions are welcome by pull request. The [Rust code of conduct][] applies.
